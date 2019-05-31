@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import ResponseType from './responses/ResponseType';
 
 
 
@@ -13,29 +14,70 @@ class App extends Component {
     }
 
     this.handleMessage = this.handleMessage.bind(this)
-    this.handleUser = this.handleUser.bind(this)
+    this.handleId = this.handleId.bind(this)
     this.sendData = this.sendData.bind(this)
+    this.login = this.login.bind(this)
   }
 
   login() {
     const msg = {
-      user: this.state.sendUser, 
-      message: this.state.sendMessage
+      id: this.state.sendId, 
+      message: this.state.sendMessage,
+      type: ResponseType.DEBUG
     }
     this.socket.send(JSON.stringify(msg))
+
+    this.setState({
+      logged: true
+    })
   }
 
   setupSocket() {
     this.socket = new WebSocket("ws://localhost:9000/")
 
-    this.socket.onmessage = (response) => {
-      const message = JSON.parse(response.data)
-      this.setState({
-        loaded: true, 
-        logged: true,
-        user: message.user, 
-        message: message.message
-      })
+    this.socket.onmessage = (r) => {
+      const response = JSON.parse(r.data)
+      
+      switch (response.type) {
+        case ResponseType.CHARITIES:
+          // call function to read charities
+          break
+        case ResponseType.CHARITY:
+          // call function to read charity
+          break
+        case ResponseType.DONATE:
+          // call function to display donation status
+          break
+        case ResponseType.DONATIONS_MADE:
+          // call function to read donations of user
+          break
+        case ResponseType.DONATIONS_RECEIVED:
+          // call function to read donations to charity
+          break
+        case ResponseType.NEEDING:
+          // call function to display needs status
+          break
+        case ResponseType.NEEDS:
+          // call function to read needs of charity
+          break
+        case ResponseType.REGISTER_CHARITY:
+          // call function to display registration status
+          break
+        case ResponseType.REGISTER_PERSON:
+          // call function to display registration status
+          break
+        case ResponseType.VALIDATE_DONATION:
+          // call function to display validation status
+          break
+        case ResponseType.DEBUG:
+          this.setState({
+            loaded: true,
+            id: response.id,
+            message: response.message
+          })
+          break
+        default:
+      }
 
     }
 
@@ -52,9 +94,9 @@ class App extends Component {
     }
   }
 
-  handleUser(event) {
+  handleId(event) {
     this.setState({
-      sendUser: event.target.value
+      sendId: event.target.value
     })
   }
 
@@ -75,7 +117,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           {!this.state.logged ?
             <form>
-              <input type='text' placeholder='User' onChange={this.handleUser}></input>
+              <input type='text' placeholder='ID' onChange={this.handleId}></input>
               <input type='text' placeholder='Message' onChange={this.handleMessage}></input>
               <br></br>
               <p onClick={this.sendData}>Enviar</p>
@@ -83,7 +125,7 @@ class App extends Component {
             :
             this.state.loaded ?
               <p>
-                user: {this.state.user} / message: {this.state.message}
+                id: {this.state.id} / message: {this.state.message}
               </p>
               :
               <p>

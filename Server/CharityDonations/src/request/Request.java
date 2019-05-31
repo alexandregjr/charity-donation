@@ -7,15 +7,25 @@ import java.io.Serializable;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Request implements Serializable {
-    String user;
-    String message;
 
-    public String getUser() {
-        return user;
+    int id;
+    String message;
+    RequestType type;
+
+    public RequestType getType() {
+        return type;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setType(RequestType type) {
+        this.type = type;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getMessage() {
@@ -29,8 +39,9 @@ public class Request implements Serializable {
     @Override
     public String toString() {
         return "Request{" +
-                "user='" + user + '\'' +
+                "id=" + id +
                 ", message='" + message + '\'' +
+                ", type=" + type +
                 '}';
     }
 }
