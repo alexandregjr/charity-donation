@@ -126,7 +126,7 @@ class App extends Component {
             this.state.loaded ?
               <p>
                 id: {this.state.id} / message: {this.state.message}
-              </p>
+                </p>
               :
               <p>
                 loading...

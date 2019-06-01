@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.java_websocket.WebSocket;
@@ -9,9 +8,9 @@ import request.Request;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class CommunicationServer extends WebSocketServer {
+public class RequestServer extends WebSocketServer {
 
-    public CommunicationServer(int port) {
+    public RequestServer(int port) {
         super(new InetSocketAddress(port));
         System.out.println("Waiting for connections...");
     }
@@ -24,8 +23,6 @@ public class CommunicationServer extends WebSocketServer {
     @Override
     public void onClose(WebSocket webSocket, int code, String cause, boolean remote) {
         System.out.println("Connection closed");
-        System.out.println("From " + webSocket.getRemoteSocketAddress().getAddress().getHostAddress());
-        System.out.println("Cause: " + cause);
     }
 
     @Override
@@ -279,6 +276,6 @@ public class CommunicationServer extends WebSocketServer {
     }
 
     public static void main(String[] args) {
-        new CommunicationServer(9000).start();
+        new RequestServer(9000).start();
     }
 }
