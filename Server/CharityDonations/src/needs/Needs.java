@@ -16,4 +16,8 @@ public class Needs {
     public void setNeeds(ArrayList<Item> needs) {
         this.needs = needs;
     }
+
+    public void addNeeds(Item need) {
+        this.needs.add(need);
+    }
 }

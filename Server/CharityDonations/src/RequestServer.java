@@ -1,12 +1,16 @@
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import needs.Item;
+import needs.Needs;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 import request.Request;
+import users.charity.Charity;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 
 public class RequestServer extends WebSocketServer {
 
@@ -78,11 +82,35 @@ public class RequestServer extends WebSocketServer {
 
     private void charityResponse(Request request, WebSocket connection) {
         ObjectMapper mapper = new ObjectMapper();
+        Request response = new Request();
         // GET DATA (NEEDS AND INFO) FROM THE CHARITY ASKED (ID VALUE)
         // WRITE DATA IN JSON STRING
+        Charity c = new Charity();
+        c.setCnpj("1234123");
+        c.setField("ongs");
+        c.setName("test");
+        c.setId(1);
+
+        Needs n = new Needs();
+        n.addNeeds(new Item(1, "test1", "desc", 4));
+        n.addNeeds(new Item(2, "test2", "desc", 8));
+        n.addNeeds(new Item(3, "test3", "desc", 3));
+
+        c.setNeeds(n);
+
+        String cJson = null;
+        try {
+            cJson = mapper.writeValueAsString(c);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        response.setType(request.getType());
+        response.setMessage(cJson);
+
         String rJson = null;
         try {
-            rJson = mapper.writeValueAsString(request);
+            rJson = mapper.writeValueAsString(response);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
@@ -96,8 +124,30 @@ public class RequestServer extends WebSocketServer {
         // GET DATA (INFO AND ABSTRACT OF NEEDS) FROM ALL CHARITIES
         // FOLLOWING A ORDER
 
-        // FILTER WITH FILTERS ASKED (CHARITY VALUE)
+        ArrayList<Charity> charities = new ArrayList<>();
+        Charity c = new Charity();
+        c.setCnpj("1234123");
+        c.setField("ongs");
+        c.setName("test");
+        c.setId(1);
+        Needs n = new Needs();
+        n.addNeeds(new Item(1, "test1", "desc", 4));
+        n.addNeeds(new Item(2, "test2", "desc", 8));
+        n.addNeeds(new Item(3, "test3", "desc", 3));
 
+        c.setNeeds(n);
+
+        charities.add(c);
+
+        String charitiesJson = null;
+        try {
+            charitiesJson = mapper.writeValueAsString(charities);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        // FILTER WITH FILTERS ASKED (CHARITY VALUE)
+        response.setType(request.getType());
+        response.setMessage(charitiesJson);
         // WRITE DATA IN JSON STRING
         String rJson = null;
         try {

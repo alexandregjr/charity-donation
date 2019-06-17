@@ -6,6 +6,13 @@ public class Item {
     private String description;
     private int amount;
 
+    public Item(int id, String name, String description, int amount) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.amount = amount;
+    }
+
     public Item() {
     }
 
