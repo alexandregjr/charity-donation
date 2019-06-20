@@ -1,9 +1,16 @@
 package users.charity;
 
+import donations.Donation;
 import filter.Filter;
 import needs.Item;
 import needs.Needs;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.nio.ByteBuffer;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -162,8 +169,6 @@ public final class CharityDAO {
     public static Charity setCharityValuesFromResultSet(ResultSet rs, Connection con){
         Charity ret = new Charity();
         try {
-            rs.beforeFirst();
-            rs.next();
             ret.setId(rs.getInt("id"));
             ret.setDescription(rs.getString("description"));
             ret.setWebpage(rs.getString("webpage"));
@@ -229,7 +234,21 @@ public final class CharityDAO {
             return null;
         }
 
-        Charity ret = CharityDAO.setCharityValuesFromResultSet(rs, con);
+        Charity ret;
+
+        try {
+            rs.beforeFirst();
+            rs.next();
+            ret = CharityDAO.setCharityValuesFromResultSet(rs, con);
+        } catch (SQLException e) {
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return null;
+        }
 
         try {
             con.close();
@@ -240,15 +259,25 @@ public final class CharityDAO {
     }
 
     public static ArrayList<Charity> getCharities(Filter f){
-        Connection con = connectDB();
+        Connection con = CharityDAO.connectDB();
         if(con == null) return null;
         ResultSet rs = null;
+        //System.out.println(" f: " + f);
 
         try {
-            PreparedStatement stm = con.prepareStatement("select * from " +
-                    "charityDonation.charity where ? = ?");
-            stm.setString(1, f.getKey());
-            stm.setString(2, "'" + f.getValue() + "'");
+            PreparedStatement stm;
+            if(f.getKey().equals("") || f.getKey() == null){
+                //System.out.println("null");
+                stm = con.prepareStatement("select * from " +
+                        "charityDonation.charity;");
+
+            } else {
+                System.out.println("not null");
+                stm = con.prepareStatement("select * from " +
+                        "charityDonation.charity where " + f.getKey() + " = ?;");
+                stm.setString(1, f.getValue());
+                System.out.println(stm);
+            }
             rs = stm.executeQuery();
         } catch (SQLException e) {
             try {
@@ -265,6 +294,7 @@ public final class CharityDAO {
             rs.beforeFirst();
             while (rs.next()){
                 Charity c = CharityDAO.setCharityValuesFromResultSet(rs, con);
+                System.out.println(c);
                 charityList.add(c);
             }
         } catch (SQLException e) {
@@ -275,6 +305,10 @@ public final class CharityDAO {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+        //System.out.println("return");
+//        for(Charity i : charityList){
+//            System.out.println(i);
+//        }
         return charityList;
     }
 
@@ -288,4 +322,64 @@ public final class CharityDAO {
         }
         return needs;
     }
+
+    private static  ArrayList<ByteBuffer> getByteArrayFromResultSet(ResultSet rs){
+        ArrayList<ByteBuffer> bt = new ArrayList<>();
+        try {
+            rs.beforeFirst();
+            while (rs.next()){
+                String path = rs.getString("path");
+                BufferedImage bi = ImageIO.read(new File(path));
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(bi, "png", baos);
+                bt.add(ByteBuffer.wrap(baos.toByteArray()));
+            }
+            return bt;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static  ArrayList<ByteBuffer> getPhotos(int id){
+        Connection con = connectDB();
+        if(con == null) return null;
+        ResultSet rs;
+        ArrayList<ByteBuffer> ret = null;
+        try {
+            rs = con.createStatement().executeQuery("select photos.path from charityDonation.photos " +
+                    "where charity = " + id + ";");
+            ret = CharityDAO.getByteArrayFromResultSet(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static boolean decreaseNeeds(Donation d, int id){
+        Connection con = connectDB();
+        boolean ret = false;
+        try {
+            con.createStatement().executeUpdate("update charityConation.needs " +
+                    "set amount = amount - " + d.getAmount() +"" +
+                    " where id = " + id + ";");
+            ret = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  ret;
+    }
+
+
 }
+

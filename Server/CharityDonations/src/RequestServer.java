@@ -157,7 +157,6 @@ public class RequestServer extends WebSocketServer {
     private void charityResponse(Request request, WebSocket connection) {
         ObjectMapper mapper = new ObjectMapper();
         Request response = new Request();
-
         Charity c = CharityDAO.getCharity(request.getId());
         if(c == null){
             response.setType(RequestType.FAIL);
@@ -181,6 +180,12 @@ public class RequestServer extends WebSocketServer {
         }
         // SEND THE RESPONSE
         connection.send(rJson);
+
+        ArrayList<ByteBuffer> imgs = CharityDAO.getPhotos(request.getId());
+        for(ByteBuffer i: imgs){
+            System.out.println("Sending Image");
+            connection.send(i);
+        }
     }
 
     private void charitiesResponse(Request request, WebSocket connection) {
@@ -227,17 +232,25 @@ public class RequestServer extends WebSocketServer {
             if(DonationDAO.insertDonation(d, request.getId())) {
                 response.setType(RequestType.SUCCESS);
                 response.setMessage("Donation insertion succeeded");
+                if(CharityDAO.decreaseNeeds(d, request.getId())){
+                    response.setType(RequestType.SUCCESS);
+                    response.setMessage("Donation insertion succeeded");
+                } else {
+                    response.setType(RequestType.SUCCESS);
+                    response.setMessage("Donation insertion succeeded");
+                }
             } else {
-                response.setType(RequestType.FAIL);
-                response.setMessage("Donation insertion failed");
+                response.setType(RequestType.SUCCESS);
+                response.setMessage("Donation insertion succeeded");
             }
+
+            response.setId(-4);
         } catch (IOException e) {
             response.setType(RequestType.FAIL);
             response.setMessage("Donation insertion failed");
             e.printStackTrace();
         }
 
-        response.setId(-4);
         // WRITE DATA IN JSON STRING
         String rJson = null;
         try {
