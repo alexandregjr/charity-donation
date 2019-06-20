@@ -1,0 +1,106 @@
+/*
+PALE GOLD = #C0B283
+SILK = #DCD0C0
+PAPER = #F4F4F4
+CHARCOAL = #373737
+*/
+
+/* Setting DEFAULT */
+.logo{
+  text-align: center;
+}
+input{
+  margin-left: 10%;
+  width: calc(80% - 113px);
+}
+body{
+  background-color: #F4F4F4;
+}
+h1{
+  color: #C0B283;
+}
+b{
+  color: #373737;
+}
+button{
+  width: 110px;
+}
+
+/* Setting HEADER */
+.header{
+}
+.active {
+  background-color: #4CAF50;
+}
+ul.tabs{
+  list-style-type: none;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding: 0;
+  overflow: hidden;
+}
+ul.tabs li{
+  float: left;
+}
+ul.tabs li a{
+  display: block;
+  color: #C0B283;
+  text-align: center;
+  padding: 12px 16px;
+  text-decoration: none;
+  border-bottom: 4px;
+  border-color: transparent;
+  border-bottom-style: solid;
+  transition: 0.25s;
+}
+ul.tabs li a:hover{
+  border-color: #C0B283;
+  border-bottom-color: inherit;
+}
+
+/*Setting HOME page*/
+div.charityInfo{
+  border-style: double;
+  border-color: #DCD0B0;
+  margin: auto;
+  width: 80%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  /* margin: 2% 10%; */
+  overflow: auto;
+}
+div.charityInfo:hover{
+  background-color: rgb(240,240,240);
+  transition: 0.2s;
+}
+div.charityInfo div{
+  margin-left: 2%;
+}
+div.charityInfo p.name{
+  margin-left: inherit;
+  font-size: 25px;
+}
+div.charityInfo p.field{
+  font-size: 20px;
+  margin-left: inherit;
+}
+
+/* Setting register/login page */
+.login{
+  border-style: double;
+  border-color: #C0B283;
+  text-align: center;
+  margin-left: 25%;
+  margin-right: 25%;
+  padding-bottom: 5%;
+}
+
+
+
+/* Setting charity page */
+div.charityPage{
+  text-align: center;
+  margin: 0% 20%;
+  border-style: double;
+  border-color: #C0B283;
+}

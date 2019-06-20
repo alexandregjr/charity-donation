@@ -48,7 +48,7 @@ class Main extends Component {
                         error: true
                     })
             }
-        }        
+        }
     }
 
     componentDidMount() {
@@ -63,12 +63,13 @@ class Main extends Component {
 
         return (
             <div>
-                <input type='text' placeholder='pesquisar'></input>
-                {   
+                <input type='text' placeholder='pesquisar instituição'></input>
+                <button className='search'><i class="fa fa-search"></i></button>
+                {
                     this.state.error ?
                     <p>error</p> :
-                    this.state.loading ? 
-                    <p>loading...</p> :                 
+                    this.state.loading ?
+                    <p>loading...</p> :
                     <div>
                         {infos}
                     </div>

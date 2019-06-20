@@ -2,11 +2,14 @@ import React from 'react'
 
 function Login(props) {
     return (
-        <div>
-            <h2>Logar</h2>
-            <input type='text' placeholder='email'></input>
-            <input type='password' placeholder='senha'></input>
-            <button>Login</button>
+        <div className="login">
+          <h2><b>Entrar</b></h2>
+          <p>Error</p>
+          <form name='login'>
+              <input name='username' type='text' placeholder='username'></input>
+              <input name='password' type='password' placeholder='senha'></input>
+              <input type='submit' value='login'></input>
+          </form>
         </div>
     )
 }

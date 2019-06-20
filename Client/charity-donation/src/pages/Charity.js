@@ -49,7 +49,7 @@ class Charity extends Component {
                         error: true
                     })
             }
-        }        
+        }
     }
 
     componentDidMount() {
@@ -65,11 +65,11 @@ class Charity extends Component {
             <p>error</p> :
             this.state.loading ?
             <p>loading...</p> :
-            <div>
+            <div className="charityPage">
                 <h1>{content.name}</h1>
                 <h2>{content.field}</h2>
                 <p>{content.description}</p>
-                
+
                 <h2>Lista de nec.</h2>
                 <Needs data={content.needs} />
             </div>

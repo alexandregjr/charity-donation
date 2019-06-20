@@ -2,8 +2,8 @@ import React from 'react'
 
 function Register(props) {
     return (
-        <div>
-            <h2>Registrar</h2>
+        <div className="login">
+            <h2><b>Registrar</b></h2>
             <input type='text' placeholder='nome'></input>
             <input type='text' placeholder='email'></input>
             <input type='password' placeholder='senha'></input>

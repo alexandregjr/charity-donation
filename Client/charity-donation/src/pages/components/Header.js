@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom'
 
 function Header(props) {
     return (
-        <div>
-            <h1>Doacoes</h1>
-            <ul>
+        <div className="header">
+            <h1 className="logo">Doações do Polo<img></img></h1>
+            <ul className="tabs">
                 <li><Link to='/'>Home</Link></li>
                 <li><Link to='/donations'>Minhas Doações</Link></li>
                 <li><Link to='/'>Minhas Necessidades</Link></li>
