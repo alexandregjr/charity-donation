@@ -1,8 +1,6 @@
 import React from 'react'
 
 function Needs(props) {
-
-    console.log(props)
     let { needs } = props.data
     if (!needs) needs = []
 

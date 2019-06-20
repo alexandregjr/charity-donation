@@ -7,10 +7,11 @@ function Header(props) {
             <h1>Doacoes</h1>
             <ul>
                 <li><Link to='/'>Home</Link></li>
-                <li><Link to='/donations'>Minhas Doações</Link></li>
-                <li><Link to='/'>Minhas Necessidades</Link></li>
+                <li><Link to='/donations'>Doações Feitas</Link></li>
+                <li><Link to='/received'>Itens Recebidos</Link></li>
                 <li><Link to='/login'>Entrar</Link></li>
                 <li><Link to='/register'>Registrar</Link></li>
+                <li><Link to='/edit'>Editar</Link></li>
             </ul>
         </div>
     )

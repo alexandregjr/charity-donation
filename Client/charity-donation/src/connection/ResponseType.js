@@ -10,4 +10,9 @@ export default class ResponseType {
     static REGISTER_PERSON = 'REGISTER_PERSON'
     static VALIDATE_DONATION = 'VALIDATE_DONATION'
     static DEBUG = 'DEBUG'
+    static PHOTO = 'PHOTO'
+    static SUCCESS = 'SUCCESS'
+    static FAIL = 'FAIL'
+    static UPDATE_DESCRIPTION = 'UPDATE_DESCRIPTION'
+    static LOGIN = 'LOGIN'
 }

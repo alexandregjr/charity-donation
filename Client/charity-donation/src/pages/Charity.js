@@ -9,11 +9,14 @@ class Charity extends Component {
 
         this.state = {
             loading: true,
-            content: {}
+            content: {},
+            errorMessage: '',
+            error: false
         }
 
         this.query = this.query.bind(this)
         this.setContent = this.setContent.bind(this)
+        this.handleChange = this.handleChange.bind(this)
     }
 
     query() {
@@ -35,18 +38,46 @@ class Charity extends Component {
         })
     }
 
+    setError(error) {
+        this.setState({
+            errorMessage: error,
+            error: true
+        })
+    }
+
     setupSocket() {
         this.socket = Connection
 
         this.socket.onmessage = (r) => {
             const response = JSON.parse(r.data)
             switch (response.type) {
-                case ResponseType.CHARITY:
-                    this.setContent(response.message)
+                case ResponseType.SUCCESS:
+                    switch(response.id) {
+                        case -2: // -2 é id de charity
+                            this.setContent(response.message)
+                            break
+                        case -4: // -4 é id de donation
+                            this.donationSuccessful()
+                            break
+                        default:
+                    }
+                    break
+                case ResponseType.FAIL:
+                        switch(response.id) {
+                            case -2: // -2 é id de charity
+                            this.setError(response.message)
+                                break
+                            case -4: // -4 é id de donation
+                                this.donationFailed()
+                                break
+                            default:
+                        }
+                    
                     break
                 default:
                     this.setState({
-                        error: true
+                        error: true,
+                        errorMessage: 'Erro: Indefinido.'
                     })
             }
         }        
@@ -57,21 +88,50 @@ class Charity extends Component {
         this.query()
     }
 
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
+    }
+
+    handleSubmit(event) {
+        event.preventDefault()
+        if (!this.state.donation) return
+        if (!this.state.amount) return
+    }
+
     render() {
         const { content } = this.state
 
+        let needs
+        if (!content.needs) needs = []
+        else if (!content.needs.needs) needs = []
+        else needs = content.needs.needs
+
+        const needsSelector = needs.map((need, index) => 
+            <label key={index}>
+                <input onChange={this.handleChange} type='radio' name='donation' value={index}></input>
+                {need.name}
+            </label>
+        )
+
         return (
             this.state.error ?
-            <p>error</p> :
+            <p>{this.state.errorMessage}</p> :
             this.state.loading ?
-            <p>loading...</p> :
+            <p>Loading data...</p> :
             <div>
                 <h1>{content.name}</h1>
                 <h2>{content.field}</h2>
                 <p>{content.description}</p>
-                
+
                 <h2>Lista de nec.</h2>
-                <Needs data={content.needs} />
+                <form name='donate' onSubmit={this.handleSubmit}>
+                    {needsSelector}
+                    {this.state.donation &&
+                    <input type='number' name='amount' min='1' max={needs[this.state.donation].amount} onChange={this.handleChange}></input>}
+                    <input type='submit' value='Enviar doação'/>
+                </form>
             </div>
         )
     }
