@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6c863fde-d653-4df0-a970-7c7d56b78b74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/Connection.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/Connection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/EditCharity.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/EditCharity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/components/Needs.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/components/Needs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/RequestServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/RequestServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/request/RequestType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/request/RequestType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/ResponseType.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/ResponseType.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Charity.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Charity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Login.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,7 +18,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/needs/Item.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="144">
@@ -32,6 +26,18 @@
               <folding>
                 <element signature="e#442#443#0" expanded="true" />
                 <element signature="e#470#471#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/donations/Donation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="234">
+              <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -53,7 +59,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/users/charity/Charity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-326">
+            <state>
               <caret column="13" selection-start-column="13" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -62,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/users/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+            <state relative-caret-position="90">
+              <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
               <folding>
                 <element signature="e#370#371#0" expanded="true" />
                 <element signature="e#402#403#0" expanded="true" />
@@ -120,15 +126,6 @@
                 <element signature="e#480#481#0" expanded="true" />
                 <element signature="e#508#509#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/users/person/PersonDAO.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -335,7 +332,7 @@
     <frame x="70" y="27" width="1296" height="741" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.372" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.372" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -345,7 +342,7 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289256" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3289256" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -420,16 +417,6 @@
     <entry file="jar://$PROJECT_DIR$/../../../jackson-core-2.9.9.jar!/com/fasterxml/jackson/core/Version.class" />
     <entry file="jar://$PROJECT_DIR$/../../../jackson-core-2.9.9.jar!/com/fasterxml/jackson/core/Versioned.class" />
     <entry file="jar://$PROJECT_DIR$/../../../jackson-databind-2.9.9.jar!/com/fasterxml/jackson/databind/ObjectMapper.class" />
-    <entry file="file://$PROJECT_DIR$/src/donations/Donation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/users/charity/CharityDAO.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -485,17 +472,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/needs/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="70" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
-          <folding>
-            <element signature="e#442#443#0" expanded="true" />
-            <element signature="e#470#471#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/needs/Needs.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -507,16 +483,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/users/charity/Charity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-326">
-          <caret column="13" selection-start-column="13" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/RequestServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3090">
@@ -524,13 +490,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/users/charity/Charity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/users/User.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="13" column="5" lean-forward="true" selection-start-line="13" selection-start-column="5" selection-end-line="13" selection-end-column="5" />
+        <state relative-caret-position="90">
+          <caret line="5" column="25" lean-forward="true" selection-start-line="5" selection-start-column="25" selection-end-line="5" selection-end-column="25" />
           <folding>
             <element signature="e#370#371#0" expanded="true" />
             <element signature="e#402#403#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/donations/Donation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/needs/Item.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="8" column="70" selection-start-line="8" selection-start-column="70" selection-end-line="8" selection-end-column="70" />
+          <folding>
+            <element signature="e#442#443#0" expanded="true" />
+            <element signature="e#470#471#0" expanded="true" />
           </folding>
         </state>
       </provider>

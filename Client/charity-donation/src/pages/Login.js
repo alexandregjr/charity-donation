@@ -52,8 +52,8 @@ class Login extends Component {
     }
 
     logged(id, type) {
-        localStorage.setItem('id', id.toUpperCase())
-        localStorage.setItem('type', type.toUpperCase())            
+        sessionStorage.setItem('id', id)
+        sessionStorage.setItem('type', type.toUpperCase())            
     }
 
     loginError(error) {
@@ -69,6 +69,7 @@ class Login extends Component {
         
         this.socket.onmessage = (r) => {
             const response = JSON.parse(r.data)
+            console.log(response)
             switch (response.type) {
                 case ResponseType.SUCCESS:
                     this.logged(response.id, response.message)

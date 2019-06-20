@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Needs from './components/Needs'
 import Connection from '../connection/Connection'
 import ResponseType from '../connection/ResponseType'
 
@@ -11,12 +10,15 @@ class Charity extends Component {
             loading: true,
             content: {},
             errorMessage: '',
-            error: false
+            error: false,
+            donated: false
         }
 
         this.query = this.query.bind(this)
         this.setContent = this.setContent.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.donationSuccessful = this.donationSuccessful.bind(this)
     }
 
     query() {
@@ -45,6 +47,20 @@ class Charity extends Component {
         })
     }
 
+    donationSuccessful(message) {
+        this.setState({
+            donated: true,
+            result: message
+        })
+    }
+
+    donationFailed(message) {
+        this.setState({
+            errorDonation: true,
+            errorMessage: message
+        })
+    }
+
     setupSocket() {
         this.socket = Connection
 
@@ -57,25 +73,24 @@ class Charity extends Component {
                             this.setContent(response.message)
                             break
                         case -4: // -4 é id de donation
-                            this.donationSuccessful()
+                            this.donationSuccessful(response.message)
                             break
                         default:
                     }
                     break
                 case ResponseType.FAIL:
-                        switch(response.id) {
-                            case -2: // -2 é id de charity
-                            this.setError(response.message)
-                                break
-                            case -4: // -4 é id de donation
-                                this.donationFailed()
-                                break
-                            default:
-                        }
-                    
+                    switch(response.id) {
+                        case -2: // -2 é id de charity
+                        this.setError(response.message)
+                            break
+                        case -4: // -4 é id de donation
+                            this.donationFailed(response.message)
+                            break
+                        default:
+                    }
                     break
                 default:
-                    this.setState({
+                      this.setState({
                         error: true,
                         errorMessage: 'Erro: Indefinido.'
                     })
@@ -90,14 +105,43 @@ class Charity extends Component {
 
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
+            donated: false
         })
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        if (!this.state.donation) return
+        if (this.state.donation === undefined) return
         if (!this.state.amount) return
+
+        this.donate()
+    }
+
+    donate() {
+        if (this.socket.readyState !== this.socket.OPEN) 
+            setTimeout(this.donate, 10)
+
+        const donation = {
+            donor: {
+                id: sessionStorage.getItem('id')
+            },
+            receiver: {
+                id: this.props.match.params.id
+            },
+            donation: {
+                id: this.state.content.needs.needs[this.state.donation].id
+            },
+            amount: this.state.amount
+        }
+
+        const msg = {
+            id: sessionStorage.getItem('type') === 'CHARITY' ? 1 : 0, //0 person, 1 charity
+            type: ResponseType.DONATE,
+            message: JSON.stringify(donation)
+        }
+
+        this.socket.send(JSON.stringify(msg))
     }
 
     render() {
@@ -126,6 +170,10 @@ class Charity extends Component {
                 <p>{content.description}</p>
 
                 <h2>Lista de nec.</h2>
+                {this.state.donated &&
+                <p>{this.state.result}</p>}
+                {this.state.errorDonation &&
+                <p>{this.state.errorMessage}</p>}
                 <form name='donate' onSubmit={this.handleSubmit}>
                     {needsSelector}
                     {this.state.donation &&
