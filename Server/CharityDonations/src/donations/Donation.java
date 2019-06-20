@@ -9,6 +9,8 @@ public class Donation {
     private User donor;
     private Charity receiver;
     private Item donation;
+    private int status;
+    private int amount;
 
     public Donation() {
         this.donor = new User();
@@ -24,11 +26,11 @@ public class Donation {
         this.id = id;
     }
 
-    public User getDonator() {
+    public User getDonor() {
         return donor;
     }
 
-    public void setDonator(User donator) {
+    public void setDonor(User donator) {
         this.donor = donator;
     }
 
@@ -46,5 +48,21 @@ public class Donation {
 
     public void setDonation(Item donation) {
         this.donation = donation;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
