@@ -8,11 +8,20 @@ import org.java_websocket.server.WebSocketServer;
 import request.Request;
 import users.charity.Charity;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class RequestServer extends WebSocketServer {
+
+    ArrayList<Integer> idsPhotos = new ArrayList<>();
 
     public RequestServer(int port) {
         super(new InetSocketAddress(port));
@@ -70,6 +79,9 @@ public class RequestServer extends WebSocketServer {
                 case DEBUG:
                     debugResponse(request, webSocket);
                     break;
+                case PHOTO:
+                    this.idsPhotos.add(request.getId());
+                    break;
                 default:
 
                     break;
@@ -78,6 +90,39 @@ public class RequestServer extends WebSocketServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onMessage(WebSocket conn, ByteBuffer message) {
+        System.out.println(Thread.currentThread().getName());
+
+        System.out.println("Binary message");
+
+        UUID uuid = UUID.randomUUID();
+        int charity = idsPhotos.remove(0);
+
+        String path = "resources/ch" + charity + "id" +uuid.toString() + ".png";
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (fos == null) return;
+
+        while (message.hasRemaining()) {
+            try {
+                fos.write(message.get());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+
     }
 
     private void charityResponse(Request request, WebSocket connection) {
@@ -138,6 +183,34 @@ public class RequestServer extends WebSocketServer {
         c.setNeeds(n);
 
         charities.add(c);
+
+        Charity c1 = new Charity();
+        c1.setCnpj("1234123");
+        c1.setField("ongs");
+        c1.setName("test2");
+        c1.setId(1);
+        Needs n1 = new Needs();
+        n1.addNeeds(new Item(1, "test12", "desc", 4));
+        n1.addNeeds(new Item(2, "test22", "desc", 8));
+        n1.addNeeds(new Item(3, "test32", "desc", 3));
+
+        c1.setNeeds(n1);
+
+        charities.add(c1);
+
+        Charity c2 = new Charity();
+        c2.setCnpj("1234123");
+        c2.setField("ongs");
+        c2.setName("test3");
+        c2.setId(1);
+        Needs n6 = new Needs();
+        n6.addNeeds(new Item(1, "test126", "desc", 4));
+        n6.addNeeds(new Item(2, "test226", "desc", 8));
+        n6.addNeeds(new Item(3, "test326", "desc", 3));
+
+        c2.setNeeds(n6);
+
+        charities.add(c2);
 
         String charitiesJson = null;
         try {
@@ -309,6 +382,9 @@ public class RequestServer extends WebSocketServer {
         ObjectMapper mapper = new ObjectMapper();
 
         String rJson = null;
+
+        System.out.println(request);
+
         try {
             rJson = mapper.writeValueAsString(request);
         } catch (JsonProcessingException e) {
@@ -318,6 +394,7 @@ public class RequestServer extends WebSocketServer {
         System.out.println(rJson);
         connection.send(rJson);
     }
+
     @Override
     public void onError(WebSocket webSocket, Exception e) {
         System.out.println("Error:");
