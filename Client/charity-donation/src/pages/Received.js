@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Item from './components/Item'
 import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
+import { Redirect } from 'react-router-dom'
 
 class Received extends Component {
     constructor(props) {
@@ -108,10 +109,12 @@ class Received extends Component {
         )
 
         return (
+            !(sessionStorage.getItem('type') === 'CHARITY') ?
+                <Redirect to='/' />:
             this.state.error ?
-            <p>{this.state.errorMessage}</p> :
+                <p>{this.state.errorMessage}</p> :
             this.state.loading ?
-            <p>Loading data...</p> :
+                <p>Loading data...</p> :
             <div>
                 {donations}
             </div>

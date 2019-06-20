@@ -11,7 +11,8 @@ class Charity extends Component {
             content: {},
             errorMessage: '',
             error: false,
-            donated: false
+            donated: false,
+            photos: []
         }
 
         this.query = this.query.bind(this)
@@ -61,39 +62,52 @@ class Charity extends Component {
         })
     }
 
+    insertImage(image) {
+        this.setState((curr) => ({
+            photos: curr.photos.concat([image])
+        }))
+    }
+
     setupSocket() {
         this.socket = Connection
 
+        this.socket.binaryType = 'arraybuffer'
+
         this.socket.onmessage = (r) => {
-            const response = JSON.parse(r.data)
-            switch (response.type) {
-                case ResponseType.SUCCESS:
-                    switch(response.id) {
-                        case -2: // -2 é id de charity
-                            this.setContent(response.message)
-                            break
-                        case -4: // -4 é id de donation
-                            this.donationSuccessful(response.message)
-                            break
-                        default:
-                    }
-                    break
-                case ResponseType.FAIL:
-                    switch(response.id) {
-                        case -2: // -2 é id de charity
-                        this.setError(response.message)
-                            break
-                        case -4: // -4 é id de donation
-                            this.donationFailed(response.message)
-                            break
-                        default:
-                    }
-                    break
-                default:
-                      this.setState({
-                        error: true,
-                        errorMessage: 'Erro: Indefinido.'
-                    })
+            if (typeof r.data === 'string') {                    
+                const response = JSON.parse(r.data)
+                switch (response.type) {
+                    case ResponseType.SUCCESS:
+                        switch(response.id) {
+                            case -2: // -2 é id de charity
+                                this.setContent(response.message)
+                                break
+                            case -4: // -4 é id de donation
+                                this.donationSuccessful(response.message)
+                                break
+                            default:
+                        }
+                        break
+                    case ResponseType.FAIL:
+                        switch(response.id) {
+                            case -2: // -2 é id de charity
+                            this.setError(response.message)
+                                break
+                            case -4: // -4 é id de donation
+                                this.donationFailed(response.message)
+                                break
+                            default:
+                        }
+                        break
+                    default:
+                        this.setState({
+                            error: true,
+                            errorMessage: 'Erro: Indefinido.'
+                        })
+                }
+            } else if (r.data instanceof ArrayBuffer) {
+                const image = new Blob([r.data], {type: 'image/png'})
+                this.insertImage(image)
             }
         }        
     }
@@ -145,7 +159,11 @@ class Charity extends Component {
     }
 
     render() {
-        const { content } = this.state
+        const { content, photos } = this.state
+        
+        const preview = photos.map((image, index) => 
+            <img alt={'img'+index} src={URL.createObjectURL(image)} key={index} width='100'/>
+        )
 
         let needs
         if (!content.needs) needs = []
@@ -168,6 +186,8 @@ class Charity extends Component {
                 <h1>{content.name}</h1>
                 <h2>{content.field}</h2>
                 <p>{content.description}</p>
+
+                {preview}
 
                 <h2>Lista de nec.</h2>
                 {this.state.donated &&

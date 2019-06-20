@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import CriptoJS from 'crypto-js'
+import CryptoJS from 'crypto-js'
 import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
+import { Redirect } from 'react-router-dom'
 
 class Register extends Component {
     constructor(props) {
@@ -16,6 +17,9 @@ class Register extends Component {
         this.handleChange = this.handleChange.bind(this)
         this.registerCharity = this.registerCharity.bind(this)
         this.registerPerson = this.registerPerson.bind(this)
+        this.login = this.login.bind(this)
+        this.setError = this.setError.bind(this)
+        this.logged = this.logged.bind(this)
     }
 
     cpfTest(cpf) {
@@ -41,19 +45,44 @@ class Register extends Component {
         return true;
     }
 
+    cnpjTest(cnpj){
+        if(cnpj.length !== 14) return false
+        let weight = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        let sum = 0;
+        for(let i =0; i < 12; i++){
+            sum += weight[i] * parseInt(cnpj[i])
+        }
+        sum %= 11
+        let vDigOne
+        if(sum < 2) vDigOne = 0
+        else vDigOne = 11 - sum
+        if(parseInt(cnpj[12]) !== vDigOne) return false
+        sum = 0
+        weight = []
+        weight = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+        for(let i = 0; i < 13; i++){
+            sum += weight[i] * parseInt(cnpj[i])
+        }
+        sum %= 11
+        let vDigTwo
+        if(sum < 2) vDigTwo = 0
+        else vDigTwo = 11 - sum
+        if(parseInt(cnpj[13]) !== vDigTwo) return false
+        console.log("true")
+        return true
+    }
+
     registerCharity() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.registerCharity, 10)
 
-        // TODO verificar cnpj
-        // if (!this.cnpjTest(this.state.cnpj)) {
-        //     this.setState({
-        //         error: "CNPJ inválido!"
-        //     })
-        //     return
-        // }
+        //TODO verificar cnpj
+        if (!this.cnpjTest(this.state.cnpj)) {
+            this.setError("CNPJ inválido")
+            return
+        }
 
-        const hashPass = CriptoJS.MD5(this.state.password)
+        const hashPass = CryptoJS.MD5(this.state.password)
         const charity = {
             name: this.state.name,
             username: this.state.username,
@@ -78,13 +107,11 @@ class Register extends Component {
             setTimeout(this.registerPerson, 10)
 
         if (!this.cpfTest(this.state.cpf)) {
-            this.setState({
-                error: "CPF inválido!"
-            })
+            this.setError("CPF inválido")
             return
         }
 
-        const hashPass = CriptoJS.MD5(this.state.password)
+        const hashPass = CryptoJS.MD5(this.state.password)
         const person = {
             name: this.state.name,
             username: this.state.username,
@@ -130,18 +157,82 @@ class Register extends Component {
         })
     }
 
+    login() {
+        if (this.socket.readyState !== this.socket.OPEN) 
+            setTimeout(this.login, 10)
+
+        const { username, password } = this.state
+        if (username && password) {
+            const hashPass = CryptoJS.MD5(password)
+            const user = {
+                username: username,
+                password: hashPass.toString()
+            }
+
+            const msg = {
+                type: ResponseType.LOGIN,
+                message: JSON.stringify(user)
+            }
+
+            this.socket.send(JSON.stringify(msg))
+        } else {
+            this.setState({
+                errorMessage: 'Insira o nome e a senha'
+            })
+        }
+    }
+
+    logged(id, type) {
+        sessionStorage.setItem('id', id)
+        sessionStorage.setItem('type', type.toUpperCase())   
+        window.location.reload()     
+    }
+
+    setError(error) {
+        this.setState({
+            errorMessage: error, 
+            error: true
+        })
+    }
+
     //TODO arrumar responses possiveis
     setupSocket() {
         this.socket = Connection
-
+        
         this.socket.onmessage = (r) => {
             const response = JSON.parse(r.data)
+            console.log(response)
             switch (response.type) {
-                case ResponseType.DEBUG:
-                    console.log(response.message)
+                case ResponseType.SUCCESS:
+                    switch(response.id) {
+                        case -9: //charity
+                            this.login()
+                            break
+                        case -10: // person
+                            this.login()
+                            break
+                        default:
+                            this.logged(response.id, response.message)
+                    }
+                    break
+                case ResponseType.FAIL:
+                    switch(response.id) {
+                        case -9: //charity
+                            this.setError(response.message)
+                            break
+                        case -10: // person
+                            this.setError(response.message)
+                            break
+                        case -1:
+                            this.setError(response.message)
+                            break
+                        default:
+                    }
+                    
                     break
                 default:
                     this.setState({
+                        errorMessage: 'Erro: Indefinido.',
                         error: true
                     })
             }
@@ -154,11 +245,14 @@ class Register extends Component {
 
     render() {
         return (
+            sessionStorage.getItem('id') ?
+            <Redirect to='/'></Redirect> :
             <div>
                 <h2>Registrar</h2>
                 <button name='charity' onClick={this.handleClick}>Cadastrar instituição</button>
                 <button name='person' onClick={this.handleClick}>Cadastrar pessoa</button>
-                <p className='error'>{this.state.error}</p>
+                {this.state.error &&
+                <p>{this.state.errorMessage}</p>}
                 <form name='register' onSubmit={this.handleSubmit}>
                     <input onChange={this.handleChange} name='name' type='text' placeholder='nome'/>
                     <input onChange={this.handleChange} name='username' type='text' placeholder='username'/>

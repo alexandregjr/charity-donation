@@ -42,7 +42,7 @@ class EditCharity extends Component {
     
         // TODO: send id of logged charity
         const msg = {
-            id: 6,
+            id: sessionStorage.getItem('id'),
             type: ResponseType.UPDATE_DESCRIPTION,
             message: description
         }
@@ -67,7 +67,7 @@ class EditCharity extends Component {
 
         // TODO: send id of logged charity
         const msg = {
-            id: 4,
+            id: sessionStorage.getItem('id'),
             type: ResponseType.NEEDING,
             message: JSON.stringify(needs)
         }
@@ -84,7 +84,7 @@ class EditCharity extends Component {
         for (const image of images) {
             const msg = {
                 type: ResponseType.PHOTO,
-                id: 4
+                id: sessionStorage.getItem('id')
             }
 
             this.socket.send(JSON.stringify(msg))
@@ -127,7 +127,6 @@ class EditCharity extends Component {
             const response = JSON.parse(r.data)
             switch (response.type) {
                 case ResponseType.DEBUG:
-                    console.log(response.message)
                     break
                 default:
                     this.setState({
@@ -150,7 +149,7 @@ class EditCharity extends Component {
         return (
             <div>
                 {
-                    !(localStorage.getItem('type') === 'charity') &&
+                    !(sessionStorage.getItem('type') === 'CHARITY') &&
                     <Redirect to='/' />
                 }
                 <h2>Descrição</h2>

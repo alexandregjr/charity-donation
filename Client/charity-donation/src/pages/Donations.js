@@ -16,6 +16,7 @@ class Donations extends Component {
 
         this.setupSocket = this.setupSocket.bind(this)
         this.setContent = this.setContent.bind(this)
+        this.setError = this.setError.bind(this)
         this.query = this.query.bind(this)
     }
 
@@ -39,6 +40,13 @@ class Donations extends Component {
         })
     }
 
+    setError(error) {
+        this.setState({
+            errorMessage: error,
+            error: true
+        })
+    }
+
     setupSocket() {
         this.socket = Connection
 
@@ -49,7 +57,7 @@ class Donations extends Component {
                     this.setContent(response.message)
                     break
                 case ResponseType.FAIL:
-                        
+                    this.setError(response.message)
                     break
                 default:
                       this.setState({

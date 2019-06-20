@@ -10,26 +10,30 @@ import Main from './pages/Main'
 import Connection from './connection/Connection'
 import EditCharity from './pages/EditCharity'
 import Received from './pages/Received'
+import Logout from './pages/Logout'
+import { Redirect } from 'react-router-dom'
 
 class App extends Component {
   constructor() {
     super()
     this.socket = Connection
   }
-  
+
   render() {
     return (
       <div>
         <BrowserRouter>
           <Header />
           <Switch>
-            <Route exact path='/' component={Main}/>
+            <Route exact path='/' component={Main} />
             <Route exact path='/charity/:id' component={Charity}/>
             <Route exact path='/register' component={Register}/>
             <Route exact path='/login' component={Login}/>
+            <Route exact path='/logout' component={Logout}/>
             <Route exact path='/donations' component={Donations}/>
             <Route exact path='/edit' component={EditCharity}/>
             <Route exact path='/received' component={Received}/>
+            <Route path='/' render={() => <Redirect to='/' />}/>
           </Switch>
           <Footer />
         </BrowserRouter>

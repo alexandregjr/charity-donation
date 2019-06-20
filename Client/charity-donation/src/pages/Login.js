@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
 import CryptoJS from 'crypto-js'
+import {Redirect} from 'react-router-dom'
 
 class Login extends Component {
     constructor(props) {
@@ -53,7 +54,8 @@ class Login extends Component {
 
     logged(id, type) {
         sessionStorage.setItem('id', id)
-        sessionStorage.setItem('type', type.toUpperCase())            
+        sessionStorage.setItem('type', type.toUpperCase())   
+        window.location.reload()     
     }
 
     loginError(error) {
@@ -92,6 +94,8 @@ class Login extends Component {
 
     render() {
         return (
+            sessionStorage.getItem('id') ?
+            <Redirect to='/'></Redirect> :
             <div>
                 <h2>Logar</h2>
                 {this.state.error &&

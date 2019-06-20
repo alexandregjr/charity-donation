@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6c863fde-d653-4df0-a970-7c7d56b78b74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/ResponseType.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/connection/ResponseType.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Charity.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Charity.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../Client/charity-donation/src/pages/Login.js" afterDir="false" />
-    </list>
+    <list default="true" id="6c863fde-d653-4df0-a970-7c7d56b78b74" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -330,7 +326,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="1296" height="741" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.372" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -342,7 +337,7 @@
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3289256" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3289256" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3289256" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
