@@ -11,10 +11,11 @@ CHARCOAL = #373737
 }
 input{
   margin-left: 10%;
-  width: calc(80% - 113px);
+  width: 50%;
 }
 body{
-  background-color: #F4F4F4;
+  background-image: url("../src/resources/wallpaper2.png");
+  background-color: #f4f4f4;
 }
 h1{
   color: #C0B283;
@@ -27,8 +28,6 @@ button{
 }
 
 /* Setting HEADER */
-.header{
-}
 .active {
   background-color: #4CAF50;
 }
@@ -59,6 +58,51 @@ ul.tabs li a:hover{
 }
 
 /*Setting HOME page*/
+
+/* Search Bar */
+
+input.search{
+  width: 25%;
+  margin: auto;
+  margin-left: 25%;
+  border-style: inset;
+  border-color: rgb(189, 179, 146);
+  background-color: #f7f6f5;
+  color: #373737;
+}
+
+input.search:focus{
+  outline-style: inset;
+  outline-width: 3px;
+  outline-color: #C0B283;
+}
+
+input.searchBtn:focus{
+  outline-style: solid;
+  outline-color: #DCD0B0;
+  outline-width: 1px;
+}
+
+input.searchBtn{
+  color: #373737;
+  margin: auto;
+  max-width: 150px;
+  background: #f4f4f4;
+}
+
+div.search form{
+  display: inline;
+}
+
+.point input{
+  color: #373737;
+  margin: auto;
+  width: 20px;
+  max-width: 25px;
+  overflow: hidden;
+}
+
+/* Charities info */
 div.charityInfo{
   border-style: double;
   border-color: #DCD0B0;
@@ -66,7 +110,6 @@ div.charityInfo{
   width: 80%;
   margin-top: 1%;
   margin-bottom: 1%;
-  /* margin: 2% 10%; */
   overflow: auto;
 }
 div.charityInfo:hover{
@@ -95,12 +138,86 @@ div.charityInfo p.field{
   padding-bottom: 5%;
 }
 
+.login button{
+  height: 35px;
+  width: 120px;
+  margin: auto;
+}
+
 
 
 /* Setting charity page */
 div.charityPage{
   text-align: center;
   margin: 0% 20%;
+  padding: 0;
   border-style: double;
   border-color: #C0B283;
+}
+div.charityPage h2.needs{
+  text-align: left;
+  padding: inherit;
+}
+div.charityPage form{
+  text-align: left;
+  margin: auto;
+}
+div.charityPage form label{
+  max-width: 100px;
+  align-items: baseline;
+}
+div.charityPage form label input{
+  max-width: 20px;
+  margin-left: 10px;
+}
+div.charityPage form input[type="number"]{
+  border-style: inset;
+  border-color: rgb(189, 179, 146);
+  background-color: #f7f6f5;
+  color: #373737;
+  max-width: 150px;
+  display: block;
+  padding: 0px;
+  margin: 10px;
+}
+div.charityPage form input[type="submit"]{
+  color: #373737;
+  max-width: 150px;
+  background: #f4f4f4;
+  display: block;
+  padding: 0px;
+  margin: 10px;
+}
+div.charityPage form input[type="submit"]:focus{
+  outline-style: solid;
+  outline-color: #DCD0B0;
+  outline-width: 1px;
+}
+
+/* RECEIVED PAGE */
+div.item{
+  border-style: double;
+  border-color: #DCD0B0;
+  margin: auto;
+  width: 80%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  overflow: auto;
+}
+
+
+div.item b{
+  color: #C0B283;
+}
+
+div.item p.titulo b{
+  color: #373737;
+}
+
+p.anuncio{
+  margin: auto;
+  width: 80%;
+  border-style: outset;
+  border-color: #DCD0B0;
+  color: #373737;
 }

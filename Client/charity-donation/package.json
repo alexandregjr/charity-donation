@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-file-picker": "0.0.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "websocket": "^1.0.28"

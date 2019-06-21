@@ -2,16 +2,9 @@ package needs;
 
 public class Item {
     private int id;
-    private String name;
+    private String item;
     private String description;
     private int amount;
-
-    public Item(int id, String name, String description, int amount) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.amount = amount;
-    }
 
     public Item() {
     }
@@ -25,11 +18,11 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return item;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.item = name;
     }
 
     public String getDescription() {

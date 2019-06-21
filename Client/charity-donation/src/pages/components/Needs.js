@@ -1,17 +1,15 @@
 import React from 'react'
 
 function Needs(props) {
-
-    console.log(props)
     let { needs } = props.data
     if (!needs) needs = []
 
-    const list = needs.map((need, index) =>
+    const list = needs.map((need, index) => 
         <li key={index}>{need.name} - {need.amount}</li>
     )
-
+    
     return (
-        <div className="needs">
+        <div>
             <ul>
                 {list}
             </ul>
