@@ -11,7 +11,9 @@ import users.person.Person;
 
 import java.util.ArrayList;
 
-
+/**
+ * Classe usada para debug do banco de bados.
+ */
 public class CharityDatabase {
     public static void main(String args[]) {
         Charity c = new Charity();

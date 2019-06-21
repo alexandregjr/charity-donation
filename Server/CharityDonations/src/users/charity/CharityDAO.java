@@ -6,7 +6,6 @@ import needs.Item;
 import needs.Needs;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,8 +13,16 @@ import java.nio.ByteBuffer;
 import java.sql.*;
 import java.util.ArrayList;
 
+/**
+ *  Classe responsavel pela conexao com o banco de dados para resgatar e escrever informações
+ *  relacionadas a Charity.
+ */
 public final class CharityDAO {
 
+    /**
+     * methodo que inicia uma conexao com o banco de dados.
+     * @return Connection -  resultante da conexão (null se houver falha).
+     */
     private static Connection connectDB(){
         Connection con;
         try {
@@ -29,6 +36,11 @@ public final class CharityDAO {
         return con;
     }
 
+    /**
+     * Metodo responsavel pela inserção de um objeto da classe Charity no banco de dados.
+     * @param c Charity a ser inserida no banco de dados.
+     * @return boolean - indicando se a inserção foi bem sucedida (true) ou nao (false).
+     */
     public static boolean insertCharity(Charity c){
         Connection con = CharityDAO.connectDB();
         if(con == null) return false;
@@ -60,6 +72,12 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo responsavel pela inserção de um objeto da classe Needs no banco de dados.
+     * @param n Needs a ser inserida no banco de dados.
+     * @param charityId int identificador da charity a qual o Needs pertence.
+     * @return boolean - indicando se a inserção foi bem sucedida (true) ou nao (false).
+     */
     public static boolean insertNeeds(Needs n, int charityId){
         Connection con = CharityDAO.connectDB();
         if(con == null) return false;
@@ -83,6 +101,12 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo responsavel pela inserção de fotos no banco de dados, inserindo um path para o arquivo.
+     * @param path String caminho para o arquivo da imagem.
+     * @param charityID int identificador da charity a qual a imagem pertence.
+     * @return boolean - indicando se a inserção foi bem sucedida (true) ou nao (false).
+     */
     public static boolean insertPhoto(String path, int charityID){
         Connection con = CharityDAO.connectDB();
         if(con == null) return false;
@@ -106,6 +130,12 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo responsavel pela atualização da descrição de uma Charity no banco de dados.
+     * @param desc String nova descrição desejada para Charity.
+     * @param id int identificador da charity cuja descrição deseja-se atualizar.
+     * @return boolean - indicando se a atualização foi bem sucedida (true) ou nao (false).
+     */
     public static boolean updateDescription(String desc, int id){
         Connection con = connectDB();
         if(con == null) return false;
@@ -129,6 +159,13 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo que retorna um objeto Needs pertencente a Charity de id especificado,
+     * carregado a partir do banco de dados.
+     * @param id int identificador da Charity a qual o Needs pertece.
+     * @param con Connection com o banco de dados que contem as informações de needs
+     * @return Needs - objeto Needs criado pela função.
+     */
     private static Needs getNeeds(int id, Connection con){
         Needs ret = new Needs();
         ResultSet rs = null;
@@ -166,6 +203,13 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo que cria uma Charity a partir de um ResultSet e uma Connection com o
+     * banco de dados.
+     * @param rs ResultSet com as infromações da Charity buscada.
+     * @param con Connection com o banco de dados, necessario para criação de Needs.
+     * @return Charity - objeto Charity criado pela função.
+     */
     public static Charity setCharityValuesFromResultSet(ResultSet rs, Connection con){
         Charity ret = new Charity();
         try {
@@ -184,6 +228,11 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo que cria um Item a partir de um ResultSet.
+     * @param rs ResultSet com as infromações do Item buscada.
+     * @return Item - objeto Item criado pela função.
+     */
     public static Item setItemValuesFromResultSet(ResultSet rs){
         Item i = new Item();
         try {
@@ -200,6 +249,12 @@ public final class CharityDAO {
         }
     }
 
+    /**
+     * Metodo que retorna um objeto Charity de id especificado,
+     * carregado a partir do banco de dados.
+     * @param id int identificador da Charity desejada.
+     * @return Charity - objeto Charity criado pela função.
+     */
     public static Charity getCharity(int id){
         Connection con = connectDB();
         if(con == null) return null;
@@ -258,6 +313,12 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo que retorna uma lista de objetos do tipo Charity que atendam a busca feita,
+     * com as informações do Filter especificado, no banco de dados.
+     * @param f Filter que contem key e value da busca desejada.
+     * @return ArrayList(Charity) - lista de objetos do tipo Charity criado pela função.
+     */
     public static ArrayList<Charity> getCharities(Filter f){
         Connection con = CharityDAO.connectDB();
         if(con == null) return null;
@@ -312,6 +373,12 @@ public final class CharityDAO {
         return charityList;
     }
 
+    /**
+     * Metodo que retorna um objeto Needs pertencente a Charity de id especificado,
+     * carregado a partir do banco de dados.
+     * @param id int identificador da Charity que contem o Needs desejado.
+     * @return Needs - objeto Needs criado pela função.
+     */
     public static Needs getCharityNeeds(int id){
         Connection con = CharityDAO.connectDB();
         Needs needs = getNeeds(id, con);
@@ -323,6 +390,11 @@ public final class CharityDAO {
         return needs;
     }
 
+    /**
+     * Metodo que retorna imagens no formato de um ArrayList(ByteBuffer) a partir de um ResultSet.
+     * @param rs ResultSet com as infromações das fotos buscada.
+     * @return ArrayList(ByteBuffer) lista de imagens no formato de um ArrayList(ByteBuffer).
+     */
     private static  ArrayList<ByteBuffer> getByteArrayFromResultSet(ResultSet rs){
         ArrayList<ByteBuffer> bt = new ArrayList<>();
         try {
@@ -341,6 +413,12 @@ public final class CharityDAO {
         return null;
     }
 
+    /**
+     * Metodo que retorna uma lista de imagens, que pertencem a Charity especificada,
+     * no formato ArrayList(ByteBuffer), carregado a partir do banco de dados.
+     * @param id int identificador da Charity que contem as fotos desejadas.
+     * @return ArrayList(ByteBuffer) - lista de ByteBuffer criado pela função.
+     */
     public static  ArrayList<ByteBuffer> getPhotos(int id){
         Connection con = connectDB();
         if(con == null) return null;
@@ -361,11 +439,18 @@ public final class CharityDAO {
         return ret;
     }
 
+    /**
+     * Metodo que decrementa a quantidade do Needs especificado pelo id devido a uma Donation,
+     * atualizando o banco de dados.
+     * @param d Donation devido a qual o Needs sera decrementado.
+     * @param id int identificador do Needs que sera decrementado.
+     * @return boolean - indicando se a operação foi bem sucedida (true) ou nao (false).
+     */
     public static boolean decreaseNeeds(Donation d, int id){
         Connection con = connectDB();
         boolean ret = false;
         try {
-            con.createStatement().executeUpdate("update charityConation.needs " +
+            con.createStatement().executeUpdate("update charityDonation.needs " +
                     "set amount = amount - " + d.getAmount() +"" +
                     " where id = " + id + ";");
             ret = true;
