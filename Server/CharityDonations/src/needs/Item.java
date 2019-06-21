@@ -2,7 +2,7 @@ package needs;
 
 public class Item {
     private int id;
-    private String name;
+    private String item;
     private String description;
     private int amount;
 
@@ -18,11 +18,11 @@ public class Item {
     }
 
     public String getName() {
-        return name;
+        return item;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.item = name;
     }
 
     public String getDescription() {

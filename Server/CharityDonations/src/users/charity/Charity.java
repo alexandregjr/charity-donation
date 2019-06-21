@@ -8,6 +8,7 @@ public class Charity extends User {
     private String field;
     private Needs needs;
     private String webpage;
+    private String description;
 
     public Charity() {
         this.needs = new Needs();
@@ -43,5 +44,13 @@ public class Charity extends User {
 
     public void setWebpage(String webpage) {
         this.webpage = webpage;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

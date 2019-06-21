@@ -1,139 +1,43 @@
-import React, {Component} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import ResponseType from './responses/ResponseType';
-
-
+import React, { Component } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import Header from './pages/components/Header'
+import Footer from './pages/components/Footer'
+import Charity from './pages/Charity'
+import Donations from './pages/Donations'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Main from './pages/Main'
+import Connection from './connection/Connection'
+import EditCharity from './pages/EditCharity'
+import Received from './pages/Received'
+import Logout from './pages/Logout'
+import { Redirect } from 'react-router-dom'
+import './App.css'
 
 class App extends Component {
   constructor() {
     super()
-    this.state = {
-      loaded: false,
-      logged: false
-    }
-
-    this.handleMessage = this.handleMessage.bind(this)
-    this.handleId = this.handleId.bind(this)
-    this.sendData = this.sendData.bind(this)
-    this.login = this.login.bind(this)
-  }
-
-  login() {
-    const msg = {
-      id: this.state.sendId, 
-      message: this.state.sendMessage,
-      type: ResponseType.DEBUG
-    }
-    this.socket.send(JSON.stringify(msg))
-
-    this.setState({
-      logged: true
-    })
-  }
-
-  setupSocket() {
-    this.socket = new WebSocket("ws://localhost:9000/")
-
-    this.socket.onmessage = (r) => {
-      const response = JSON.parse(r.data)
-      
-      switch (response.type) {
-        case ResponseType.CHARITIES:
-          // call function to read charities
-          break
-        case ResponseType.CHARITY:
-          // call function to read charity
-          break
-        case ResponseType.DONATE:
-          // call function to display donation status
-          break
-        case ResponseType.DONATIONS_MADE:
-          // call function to read donations of user
-          break
-        case ResponseType.DONATIONS_RECEIVED:
-          // call function to read donations to charity
-          break
-        case ResponseType.NEEDING:
-          // call function to display needs status
-          break
-        case ResponseType.NEEDS:
-          // call function to read needs of charity
-          break
-        case ResponseType.REGISTER_CHARITY:
-          // call function to display registration status
-          break
-        case ResponseType.REGISTER_PERSON:
-          // call function to display registration status
-          break
-        case ResponseType.VALIDATE_DONATION:
-          // call function to display validation status
-          break
-        case ResponseType.DEBUG:
-          this.setState({
-            loaded: true,
-            id: response.id,
-            message: response.message
-          })
-          break
-        default:
-      }
-
-    }
-
-    this.socket.onopen = () => {
-      this.login()
-    }
-
-    this.socket.onclose = () => {
-
-    }
-
-    this.socket.onerror = () => {
-
-    }
-  }
-
-  handleId(event) {
-    this.setState({
-      sendId: event.target.value
-    })
-  }
-
-  handleMessage(event) {
-    this.setState({
-      sendMessage: event.target.value
-    })
-  }
-
-  sendData(event) {
-    this.setupSocket()
+    this.socket = Connection
   }
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          {!this.state.logged ?
-            <form>
-              <input type='text' placeholder='ID' onChange={this.handleId}></input>
-              <input type='text' placeholder='Message' onChange={this.handleMessage}></input>
-              <br></br>
-              <p onClick={this.sendData}>Enviar</p>
-            </form>
-            :
-            this.state.loaded ?
-              <p>
-                id: {this.state.id} / message: {this.state.message}
-                </p>
-              :
-              <p>
-                loading...
-              </p>
-            
-        }
-        </header>
+      <div>
+        <BrowserRouter>
+          <Header />
+          <Switch>
+            <Route exact path='/' component={Main} />
+            <Route exact path='/charity/:id' component={Charity}/>
+            <Route exact path='/register' component={Register}/>
+            <Route exact path='/login' component={Login}/>
+            <Route exact path='/logout' component={Logout}/>
+            <Route exact path='/donations' component={Donations}/>
+            <Route exact path='/edit' component={EditCharity}/>
+            <Route exact path='/received' component={Received}/>
+            <Route path='/' render={() => <Redirect to='/' />}/>
+          </Switch>
+          <Footer />
+        </BrowserRouter>
       </div>
     )
   }
