@@ -3,7 +3,7 @@ const Connection = (() => {
 
     return (
         !instance ? 
-        instance = new WebSocket("ws://192.168.0.22:9000") : 
+        instance = new WebSocket("ws://192.168.0.12:9000") : 
         instance
     ) 
 })()

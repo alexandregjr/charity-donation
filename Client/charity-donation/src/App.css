@@ -1,33 +1,611 @@
-.App {
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgba(0,0,0,0.05)
+}
+
+header {
+  background-color: cadetblue;
+  color: white;
+  text-align: center;
+  padding: 30px
+}
+
+header h1 {
+  margin: 10px
+}
+
+header a {
+  color: white;
+  padding: 15px;
+  text-decoration: none;
+  transition: 100ms
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  justify-content: center
+}
+
+header a:hover {
+  background-color: white;
+  color: cadetblue
+}
+
+.content {
+  max-width: 900px;
+  margin:0 auto
+}
+
+.main {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.main input.search {
+  height: 50px;
+  width: calc(50% - 62px);
+  margin: 20px;
+  float: left;
+  padding: 0 10px;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  flex: 1 0 45%
+}
+
+.main div.type {
+  float: left;
+  width: calc(30% - 20px);
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  align-content: center;
+  height: 52px;
+  justify-content: center;
+  flex: 1 0 20%
+}
+
+.main div.type label {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  height: 50%;
+}
+
+.main div.type label input {
+  margin: 0 5px 0 0
+}
+
+.main form {
+  flex: 1 0 20%
+}
+
+.main form input {
+  border: none;
+  width: calc(100% - 40px);
+  height: 50px;
+  margin: 20px;
+  background-color: cadetblue;
+  color: white;
+  border-radius: 3px;
+  transition: 100ms;
+  cursor: pointer;
+}
+
+.main form input:hover {
+  background: #5f9ea0bf
+}
+
+p.error {
+  width: calc(100% - 40px);
+  text-indent: 20px;
+  max-width: 900px;
+  margin: 20px auto;
+  border-radius: 3px;
+  background-color: tomato;
+  color: white;
+  height: 50px;
+  line-height: 50px;
+}
+
+p.success {
+  width: calc(100% - 60px);
+  padding: 0 10px;
+  max-width: 900px;
+  margin: 20px auto;
+  border-radius: 3px;
+  background-color: lightgreen;
+  color: white;
+  height: 50px;
+  line-height: 50px;
+}
+
+p.loading {
+  width: calc(100% - 60px);
+  max-width: 900px;
+  padding: 0 10px;
+  margin: 20px auto;
+  border-radius: 3px;
+  background-color: cadetblue;
+  color: white;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+.charities {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px;
+  max-width: 880px;
+  width: 100%;
+}
+
+.charity-info {
+  width: calc(50% - 62px);
+  margin: 10px;
+  padding: 20px;
+  background: white;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  flex: 1 0 40%;
+  display: flex;
+  flex-direction: column
+}
+
+.charity-info h3 {
+  text-align: center;
+  color: cadetblue
+}
+
+.charity-info .field {
+  text-align: center;
+  color: gray
+}
+
+hr {
+  height: 1px;
+  background-color: lightgray;
+  border: 0;
+  width: 0%;
+  margin: 10px auto;
+}
+
+.charity-info .subtitle {
+  text-align: center
+}
+
+.charity-info a {
+  text-decoration: none;
+  color: white;
+  background-color: cadetblue;
+  padding: 15px;
+  width: 30%;
+  text-align: center;
+  border-radius: 3px;
+  margin: 0 auto;
+}
+
+.needs ul li {
+  list-style: inside;
+}
+
+.charity {
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 3px;
+  border: 1px solid lightgray
+}
+
+.charity h2 {
+  margin: 20px 20px 0;
+  text-align: center;
+  color: cadetblue
+}
+
+.charity h4 {
+  font-weight: normal;
+  color: gray;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.charity h3 {
+  color: #333333;
+  text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.charity .images {
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center
+}
+
+.charity form {
+  margin: 20px;
+  display: flex;
+  flex-direction: column
+}
+
+.charity form label {
+  text-align: center;
+  margin: 5px 10px;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 3px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 2
+}
+
+.charity form label i {
+  color: gray
+}
+
+.charity form label p {
+  margin: 10px 0 0 0 
+}
+
+.charity form label input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.charity form label div.selection {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  border-radius: 3px
+}
+
+.charity form label input:checked + div.selection {
+  background-color: lightgreen
+}
+
+.charity form .inputs {
+  display: flex
+}
+
+.charity form .inputs input[type='number'] {
+  border: none;
+  margin: 10px;
+  background-color: rgba(0,0,0,0.03);
+  height: 50px;
+  flex: 1 0 40%;
+  border-radius: 3px;
+  text-indent: 10px
+}
+
+.charity form .inputs input[type='submit'] {
+  border: none;
+  margin: 10px;
+  background-color: cadetblue;
+  height: 50px;
+  flex: 1 0 40%;
+  color: white;
+  font-weight: bold;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.charity .images div {
+  flex: 1 0 40%;
+  height: auto;
+  margin: 10px;
+
+}
+
+.charity .images div img {
+  width: 100%;
+  height: auto;
+}
+
+.charity p {
+  margin: 20px
+}
+
+.received {
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+
+}
+
+.received h2 {
+  margin: 20px 20px 0;
+  text-align: center;
+  color: cadetblue;
+}
+
+.received .donation {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  margin: 20px;
+  flex-direction: row-reverse;
+}
+
+.received form {
+  margin: 5px;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 3px;
+  flex: 1 0 40%;
+  padding: 20px
+}
+
+.received form .item h3 {
+  text-align: center
+}
+
+.received form input {
+  border: none;
+  border-radius: 3px;
+  background-color: cadetblue;
+  height: 50px;
+  width: 60%;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.received form > p {
+  border: none;
+  border-radius: 3px;
+  background-color: lightgreen;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 50px;
+  width: 60%;
+  font-weight: bold;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.donations {
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.donations h2 {
+  margin: 20px 20px 0;
+  text-align: center;
+  color: cadetblue;
 }
+
+.donations .donation {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  margin: 20px;
+  flex-direction: row-reverse;
+}
+
+.donations .donation > div {
+  margin: 5px;
+  background-color: rgba(0,0,0,0.03);
+  border-radius: 3px;
+  flex: 1 0 40%;
+  padding: 20px
+}
+
+.donations .donation > div > p {
+  border: none;
+  border-radius: 3px;
+  background-color: lightgreen;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  height: 50px;
+  width: calc(100% - 20px);
+  font-weight: bold;
+  color: white;
+}
+
+.edit {
+  background-color: white;
+  margin: 20px auto;
+  border-radius: 3px;
+  border: 1px solid lightgray;
+
+}
+
+.edit h2 {
+  margin: 20px 20px 0;
+  text-align: center;
+  color: cadetblue;
+}
+
+.edit h3 {
+  margin: 20px;
+  color: cadetblue
+}
+
+.edit form {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+  flex-wrap: wrap;
+}
+
+.edit form[name='description'] {
+  align-items: flex-end
+}
+
+.edit form[name='description'] textarea {
+  border-radius: 3px;
+  border: none;
+  background-color: rgba(0,0,0,0.03);
+  padding: 20px;
+  margin: 0 0 10px 0;
+  width: calc(100% - 40px);
+  resize: none;
+}
+
+.edit form[name='description'] input {
+  width: 30%;
+  border:none;
+  border-radius: 3px;
+  height: 50px;
+  color: white;
+  font-weight: bold;
+  background-color: cadetblue;
+  cursor: pointer;
+}
+
+.edit form[name='photos'] label {
+  width: 30%;
+  border:none;
+  border-radius: 3px;
+  height: 50px;
+  color: black;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px
+}
+
+.edit form[name='photos'] p {
+  margin: 20px 0;
+}
+
+.edit form[name='photos'] > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: rgba(0,0,0,0.03);
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.edit form[name='photos'] > div .img {
+  flex: 1 0 20%;
+  height: auto;
+  margin: 10px;
+}
+
+.edit form[name='photos'] > div .img img {
+  width: 100%;
+  height: auto;
+  
+}
+
+.edit form[name='photos'] input[type='submit'] {
+  align-self: flex-end;
+  margin: 20px 0;
+  width: 30%;
+  border:none;
+  border-radius: 3px;
+  height: 50px;
+  color: white;
+  font-weight: bold;
+  background-color: cadetblue;
+  cursor: pointer;
+}
+ 
+.edit form[name='needs'] input {
+  height: 50px;
+  border: none;
+  border-radius: 3px;
+  background-color: rgba(0,0,0,0.03);
+  width: calc(100% - 40px);
+  margin: 5px 0;
+  padding: 0 20px;
+}
+
+.edit form[name='needs'] input[type='submit'] {
+  align-self: flex-end;
+  width: 30%;
+  color: white;
+  font-weight: bold;
+  background-color: cadetblue;
+  cursor: pointer;
+}
+
+.edit form[name='needs'] textarea {
+  resize: none;
+  border: none;
+  border-radius: 3px;
+  background-color: rgba(0,0,0,0.03);
+  padding: 20px;
+  margin: 5px 0;
+}
+
+.login h2 {
+  text-align: center;
+  color: cadetblue;
+  margin: 20px
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  align-items: center
+}
+
+.login form div {
+  display: flex;
+  flex-direction: column;
+}
+
+.login form input {
+  border-radius: 3px;
+  border:1px solid lightgray;
+  height: 50px;
+  width: auto;
+  margin: 5px 0;
+  padding: 0 10px
+}
+
+.login form input[type='submit'] {
+  background-color: cadetblue;
+  border: none;
+  color: white;
+  font-weight: bold;
+  width: 150px
+}
+
+.login > div button {
+  border: none;
+  border-radius: 3px;
+  background-color: cadetblue;
+  color: white;
+  padding: 20px;
+  margin: 5px;
+  cursor: pointer
+}
+
+.login > div {
+  display: flex;
+  justify-content: center;
+}
+
+footer {
+  text-align: center
+}
+
+footer p {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 20px 0
+}
+

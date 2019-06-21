@@ -2,16 +2,22 @@ import React from 'react'
 
 function Item(props) {
     return (
-        <div>
-            <p>Donation#{props.data.id}</p>
+        <div className={'item'}>
+            <h3>Donation#{props.data.id}</h3>
+            <hr></hr>
+            {props.type === 'received' &&
             <p>
-                <b>{props.data.donor.name}</b>
-                doou: 
-                <b>{props.data.donation.name}</b> 
-                para você
+                Doador: <b>{props.data.donor.name}</b> 
+            </p>}
+            {props.type === 'made' &&
+            <p>
+                Destinatário: <b>{props.data.receiver.name}</b> 
+            </p>}
+            <p>
+                Doação: <b> {props.data.donation.name}</b>
             </p>
             <p>
-                <b>{props.data.amount}</b> / {props.data.donation.amount}
+                Quantidade: <b>{props.data.amount}</b>
             </p>
         </div>
     )

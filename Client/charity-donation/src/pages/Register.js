@@ -76,7 +76,6 @@ class Register extends Component {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.registerCharity, 10)
 
-        //TODO verificar cnpj
         if (!this.cnpjTest(this.state.cnpj)) {
             this.setError("CNPJ inválido")
             return
@@ -195,7 +194,6 @@ class Register extends Component {
         })
     }
 
-    //TODO arrumar responses possiveis
     setupSocket() {
         this.socket = Connection
         
@@ -247,28 +245,30 @@ class Register extends Component {
         return (
             sessionStorage.getItem('id') ?
             <Redirect to='/'></Redirect> :
-            <div>
+            <div className={'content login'}>
                 <h2>Registrar</h2>
-                <button name='charity' onClick={this.handleClick}>Cadastrar instituição</button>
-                <button name='person' onClick={this.handleClick}>Cadastrar pessoa</button>
+                <div>
+                    <button name='charity' onClick={this.handleClick}>Cadastrar instituição</button>
+                    <button name='person' onClick={this.handleClick}>Cadastrar pessoa</button>
+                </div>
                 {this.state.error &&
-                <p>{this.state.errorMessage}</p>}
+                <p className={'error'}>{this.state.errorMessage}</p>}
                 <form name='register' onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleChange} name='name' type='text' placeholder='nome'/>
-                    <input onChange={this.handleChange} name='username' type='text' placeholder='username'/>
-                    <input onChange={this.handleChange} name='password' type='password' placeholder='senha'/>
-                    <input onChange={this.handleChange} name='address' type='text' placeholder='address'/>
-                    <input onChange={this.handleChange} name='email' type='email' placeholder='email'/>
+                    <input onChange={this.handleChange} name='name' type='text' placeholder='Nome'/>
+                    <input onChange={this.handleChange} name='username' type='text' placeholder='Username'/>
+                    <input onChange={this.handleChange} name='password' type='password' placeholder='Senha'/>
+                    <input onChange={this.handleChange} name='address' type='text' placeholder='Endereço'/>
+                    <input onChange={this.handleChange} name='email' type='email' placeholder='Email'/>
 
                     { this.state.type === 'CHARITY' &&
                     <div>
-                        <input onChange={this.handleChange} name='cnpj' type='text' placeholder='cnpj'/>
-                        <input onChange={this.handleChange} name='webpage' type='url' placeholder='webpage'/>
-                        <input onChange={this.handleChange} name='field' type='text' placeholder='campo de atuação'/>
+                        <input onChange={this.handleChange} name='cnpj' type='text' placeholder='CNPJ'/>
+                        <input onChange={this.handleChange} name='webpage' type='url' placeholder='WebPage'/>
+                        <input onChange={this.handleChange} name='field' type='text' placeholder='Campo de Atuação'/>
                     </div> }
                     
                     { this.state.type === 'PERSON' && 
-                    <input onChange={this.handleChange} name='cpf' type='text' placeholder='cpf'/> }
+                    <input onChange={this.handleChange} name='cpf' type='text' placeholder='CPF'/> }
 
                     <input type='submit' value='Registrar'/>
                 </form>

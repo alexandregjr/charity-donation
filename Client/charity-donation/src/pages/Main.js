@@ -9,7 +9,7 @@ class Main extends Component {
 
         this.state = {
             loading: true,
-            content: [],
+            content: []
         }
 
         this.query = this.query.bind(this)
@@ -99,6 +99,9 @@ class Main extends Component {
 
     handleSubmit(event) {
         event.preventDefault()
+        this.setState({
+            loading: true
+        })
         this.search()
     }
 
@@ -119,25 +122,27 @@ class Main extends Component {
         )
 
         return (
-            <div>
-                <input onChange={this.handleChange} name='valueSearch' type='text' placeholder='pesquisar'></input>
-                <label>
-                    <input onChange={this.handleChange} type='radio' value='name' name='keySearch'></input>
-                    Busca por nome
-                </label>
-                <label>
-                    <input onChange={this.handleChange} type='radio' value='field' name='keySearch'></input>
-                    Busca por área de atuação
-                </label>
+            <div className={'content main'}>
+                <input className={'search'} onChange={this.handleChange} name='valueSearch' type='text' placeholder='Pesquisar'></input>
+                <div className={'type'}>
+                    <label>
+                        <input onChange={this.handleChange} type='radio' value='name' name='keySearch'></input>
+                        Busca por nome
+                    </label>
+                    <label>
+                        <input onChange={this.handleChange} type='radio' value='field' name='keySearch'></input>
+                        Busca por área de atuação
+                    </label>
+                </div>
                 <form name='search' onSubmit={this.handleSubmit}>
                     <input type='submit' value='Pesquisar'></input>
                 </form>
                 {   
                     this.state.error ?
-                    <p>{this.state.errorMessage}</p> :
+                    <p className={'error'}>{this.state.errorMessage}</p> :
                     this.state.loading ? 
-                    <p>loading...</p> :                 
-                    <div>
+                    <p className={'loading'}>Loading data...</p> :                 
+                    <div className={'charities'}>
                         {infos}
                     </div>
                }

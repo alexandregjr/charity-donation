@@ -2,9 +2,9 @@ import React from 'react'
 
 function Footer(props) {
     return (   
-        <div>
-            <p>Footer of page</p>
-        </div>
+        <footer>
+            <p>DonationsWeb ~ feito por Alexandre Junior, Eduardo Pirro, Fernando Fayet e Tiago Marino</p>
+        </footer>
     )
 }
 

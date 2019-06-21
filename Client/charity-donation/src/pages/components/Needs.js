@@ -5,11 +5,11 @@ function Needs(props) {
     if (!needs) needs = []
 
     const list = needs.map((need, index) => 
-        <li key={index}>{need.name} - {need.amount}</li>
+        <li key={index}><b>{need.name}</b> ({need.amount})</li>
     )
     
     return (
-        <div>
+        <div className={'needs'}>
             <ul>
                 {list}
             </ul>

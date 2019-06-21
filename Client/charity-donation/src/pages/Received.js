@@ -36,6 +36,7 @@ class Received extends Component {
         this.setState({
             error: false,
             loading: false,
+            errorConfirm: false,
             content: JSON.parse(content)
         })
     }
@@ -52,6 +53,7 @@ class Received extends Component {
                             this.setContent(response.message)
                             break
                         case -11:
+                            this.confirmSuccessful()
                             break
                         default:
                     }
@@ -59,8 +61,10 @@ class Received extends Component {
                 case ResponseType.FAIL:
                     switch (response.id) {
                         case -6:
+                            this.setError(response.message)
                             break
                         case -11:
+                            this.confirmFailed(response.message)
                             break
                         default:
                     }
@@ -72,6 +76,28 @@ class Received extends Component {
                     })
             }
         }        
+    }
+
+    setError(error) {
+        this.setState({
+            error: true,
+            errorMessage: error
+        })
+    }
+
+    confirmFailed(error) {
+        this.setState({
+            errorConfirm: true,
+            errorMessage: error
+        })
+    }
+
+    confirmSuccessful() {
+        this.setState({
+            loading: true
+        })
+
+        this.query()
     }
 
     componentDidMount() {
@@ -101,7 +127,8 @@ class Received extends Component {
 
         const donations = content.map((donation, index) => 
             <form key={index} name={donation.id} onSubmit={this.handleSubmit}>
-                <Item data={donation} />
+                <Item data={donation} type='received' />
+                <hr></hr>
                 {donation.status === 0 ?
                 <input type='submit' value='Confirmar recebimento'></input> :
                 <p>Recebimento confirmado</p>}
@@ -112,11 +139,18 @@ class Received extends Component {
             !(sessionStorage.getItem('type') === 'CHARITY') ?
                 <Redirect to='/' />:
             this.state.error ?
-                <p>{this.state.errorMessage}</p> :
+                <p className={'error'}>{this.state.errorMessage}</p> :
             this.state.loading ?
-                <p>Loading data...</p> :
-            <div>
-                {donations}
+                <p className={'loading'}>Loading data...</p> :
+            <div className={'content received'}>
+                {this.state.errorConfirm &&
+                <p className={'error'}>{this.state.errorMessage}</p>}
+                <h2>Doações recebidas</h2>
+                <div className={'donation'}>
+                    {donations.length !== 0 ?
+                    donations :
+                    <p className={'loading'}>Não existem doações feitas para você.</p>}
+                </div>
             </div>
         )
     }

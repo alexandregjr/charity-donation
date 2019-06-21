@@ -13,27 +13,27 @@ class Header extends Component {
         const id = sessionStorage.getItem('id')
 
         return (
-            <div >
-                <h1>Doacoes</h1>
+            <header>
+                <h1>DonationWeb</h1>
                 <ul>
-                    <li><Link to='/'>Home</Link></li>
+                    <Link to='/'>Home</Link>
 
                     {!id &&
-                    <li><Link to='/login'>Entrar</Link></li>}
+                    <Link to='/login'>Entrar</Link>}
                     {!id &&
-                    <li><Link to='/register'>Registrar</Link></li>}
+                    <Link to='/register'>Registrar</Link>}
 
                     {id && type === 'CHARITY' &&
-                    <li><Link to='/received'>Itens Recebidos</Link></li>}
+                    <Link to='/received'>Itens Recebidos</Link>}
                     {id && type === 'CHARITY' &&
-                    <li><Link to='/edit'>Editar</Link></li>}
+                    <Link to='/edit'>Editar</Link>}
 
                     {id &&
-                    <li><Link to='/donations'>Doações Feitas</Link></li>}
+                    <Link to='/donations'>Doações Feitas</Link>}
                     {id &&
-                    <li><Link to='/logout'>Logout</Link></li>}
+                    <Link to='/logout'>Logout</Link>}
                 </ul>
-            </div>
+            </header>
         )
     }
 }

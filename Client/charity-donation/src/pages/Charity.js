@@ -39,6 +39,12 @@ class Charity extends Component {
             loading: false,
             content: JSON.parse(content)
         })
+
+        if (this.state.donation && this.state.content.needs.needs[this.state.donation].amount === 0) {
+            this.setState({
+                donation: ''
+            })
+        }
     }
 
     setError(error) {
@@ -53,6 +59,8 @@ class Charity extends Component {
             donated: true,
             result: message
         })
+
+        this.query()
     }
 
     donationFailed(message) {
@@ -120,21 +128,36 @@ class Charity extends Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
+            errorDonation: false,
             donated: false
         })
     }
 
     handleSubmit(event) {
         event.preventDefault()
-        if (this.state.donation === undefined) return
-        if (!this.state.amount) return
-
+        if (!this.state.donation) {
+            this.setState({
+                        errorDonation: true,
+                        errorMessage: 'Erro. Precisa selecionar um item.'
+            })
+            return
+        }
+        if (!this.state.amount) {
+            this.setState({
+                errorDonation: true,
+                errorMessage: 'Erro. Precisa dizer a quantidade.'
+            })
+            return
+        }
         this.donate()
     }
 
     donate() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.donate, 10)
+
+        console.log('donation: ' + !this.state.donation)
+        
 
         const donation = {
             donor: {
@@ -162,7 +185,9 @@ class Charity extends Component {
         const { content, photos } = this.state
         
         const preview = photos.map((image, index) => 
-            <img alt={'img'+index} src={URL.createObjectURL(image)} key={index} width='100'/>
+            <div>
+                <img alt={'img'+index} src={URL.createObjectURL(image)} key={index}/>
+            </div>
         )
 
         let needs
@@ -172,33 +197,48 @@ class Charity extends Component {
 
         const needsSelector = needs.map((need, index) => 
             <label key={index}>
-                <input onChange={this.handleChange} type='radio' name='donation' value={index}></input>
-                {need.name}
+                {need.amount !== 0 && sessionStorage.getItem('id') &&
+                <input onChange={this.handleChange} type='radio' name='donation' value={index}></input>}
+                <div className={'selection'}></div>
+                <b>{need.name}</b> 
+                {need.amount !== 0 ?
+                <i>({need.amount} para completar)</i> :
+                <i>(completo)</i>}
+                <p>{need.description}</p>
             </label>
         )
 
         return (
             this.state.error ?
-            <p>{this.state.errorMessage}</p> :
+                <p className={'error'}>{this.state.errorMessage}</p> :
             this.state.loading ?
-            <p>Loading data...</p> :
-            <div>
-                <h1>{content.name}</h1>
-                <h2>{content.field}</h2>
+                <p className={'loading'}>Loading data...</p> :
+            <div className={'content charity'}>
+                <h2>{content.name}</h2>
+                <h4><i>{content.field}</i></h4>
+                <hr></hr>
                 <p>{content.description}</p>
-
-                {preview}
-
-                <h2>Lista de nec.</h2>
+                <hr></hr>
+                <div className={'images'}>
+                    {preview}
+                </div>
+                <hr></hr>
+                <h3>Lista de nec.</h3>
                 {this.state.donated &&
-                <p>{this.state.result}</p>}
+                <div>
+                    <p className={'success'}>{this.state.result}</p>
+                    <p className={'loading'}>Envie sua doação para o seguinte endereço: {content.address}</p>
+                </div>}
                 {this.state.errorDonation &&
-                <p>{this.state.errorMessage}</p>}
+                <p className={'error'}>{this.state.errorMessage}</p>}
                 <form name='donate' onSubmit={this.handleSubmit}>
                     {needsSelector}
-                    {this.state.donation &&
-                    <input type='number' name='amount' min='1' max={needs[this.state.donation].amount} onChange={this.handleChange}></input>}
-                    <input type='submit' value='Enviar doação'/>
+                    <div className={'inputs'}>
+                        {this.state.donation &&
+                        <input type='number' name='amount' placeholder='Quantidade' min='1' max={needs[this.state.donation].amount} onChange={this.handleChange}></input>}
+                        {sessionStorage.getItem('id') &&
+                        <input type='submit' value='Enviar doação'/>}
+                    </div>
                 </form>
             </div>
         )

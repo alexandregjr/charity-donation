@@ -12,6 +12,7 @@ import EditCharity from './pages/EditCharity'
 import Received from './pages/Received'
 import Logout from './pages/Logout'
 import { Redirect } from 'react-router-dom'
+import './App.css'
 
 class App extends Component {
   constructor() {

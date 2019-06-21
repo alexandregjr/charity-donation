@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
-import Needs from './components/Needs'
 import Connection from '../connection/Connection'
 import ResponseType from '../connection/ResponseType'
 
@@ -32,6 +31,7 @@ class EditCharity extends Component {
             
             default:
         }
+        event.target.reset()
     }
 
     sendDescription() {
@@ -39,8 +39,12 @@ class EditCharity extends Component {
             setTimeout(this.sendDescription, 10)
 
         const { description } = this.state;
-    
-        // TODO: send id of logged charity
+        
+        if (!description) {
+            this.descriptionFailed('Erro. Você precisa preencher a descrição.')
+            return
+        }
+
         const msg = {
             id: sessionStorage.getItem('id'),
             type: ResponseType.UPDATE_DESCRIPTION,
@@ -57,6 +61,21 @@ class EditCharity extends Component {
 
         const { nameNeed, amountNeed, descriptionNeed } = this.state;
         
+        if (!nameNeed) {
+            this.needingFailed('Erro. Você precisa preencher o nome.')
+            return
+        }
+
+        if (!amountNeed) {
+            this.needingFailed('Erro. Você precisa preencher a quantidade.')
+            return
+        }
+        
+        if (!descriptionNeed) {
+            this.needingFailed('Erro. Você precisa preencher a descrição.')
+            return
+        }
+
         const needs = {
             needs: [{
                 name: nameNeed,
@@ -65,7 +84,6 @@ class EditCharity extends Component {
             }]
         }
 
-        // TODO: send id of logged charity
         const msg = {
             id: sessionStorage.getItem('id'),
             type: ResponseType.NEEDING,
@@ -80,6 +98,11 @@ class EditCharity extends Component {
             setTimeout(this.sendPhotos, 10)
 
         const { images } = this.state
+
+        if (!images.length) {
+            this.photoFailed('Erro. Você precisa selecionar imagens.')
+            return
+        }
 
         for (const image of images) {
             const msg = {
@@ -107,13 +130,19 @@ class EditCharity extends Component {
 
     handleChange(event) {
         this.setState({
-           [event.target.name]: event.target.value
+           [event.target.name]: event.target.value,
+           needSuccess: false,
+           needError: false,
+           descriptionSuccess: false,
+           descriptionError: false
         })
     }
 
     handleImages(event) {
         this.setState({
-            images: event.target.files
+            images: event.target.files,
+            photosSuccess: false,
+            photosError: false
         })
     }
     
@@ -126,7 +155,33 @@ class EditCharity extends Component {
         this.socket.onmessage = (r) => {
             const response = JSON.parse(r.data)
             switch (response.type) {
-                case ResponseType.DEBUG:
+                case ResponseType.SUCCESS:
+                    switch (response.id) {
+                        case -7:
+                            this.needingSuccessful(response.message)
+                            break
+                        case -12:
+                            this.photoSuccessful(response.message)
+                            break
+                        case -13:
+                            this.descriptionSuccessful(response.message)
+                            break
+                        default:
+                    }
+                    break
+                case ResponseType.FAIL:
+                    switch (response.id) {
+                        case -7:
+                            this.needingFailed(response.message)
+                            break
+                        case -12:
+                            this.photoFailed(response.message)
+                            break
+                        case -13:
+                            this.descriptionFailed(response.message)
+                            break
+                        default:
+                    }
                     break
                 default:
                     this.setState({
@@ -136,6 +191,48 @@ class EditCharity extends Component {
         }        
     }
 
+    needingSuccessful(message) {
+        this.setState({
+            needSuccess: true,
+            needMessage: message
+        })
+    }
+    
+    photoSuccessful(message) {
+        this.setState({
+            photosSuccess: true,
+            photosMessage: message
+        })
+    }
+    
+    descriptionSuccessful(message) {
+        this.setState({
+            descriptionSuccess: true,
+            descriptionMessage: message
+        })
+    }
+
+    needingFailed(error) {
+        this.setState({
+            needError: true,
+            needMessage: error
+        })
+    }
+
+    photoFailed(error) {
+        this.setState({
+            photosError: true,
+            photosMessage: error
+        })
+    }
+
+    descriptionFailed(error) {
+        this.setState({
+            descriptionError: true,
+            descriptionMessage: error
+        })
+    }
+
     componentDidMount() {
         this.setupSocket()
     }
@@ -143,38 +240,60 @@ class EditCharity extends Component {
     render() {
         const arrayImages = Array.from(this.state.images)
         const preview = arrayImages.map((image, index) => 
-            <img alt={image.name} src={URL.createObjectURL(image)} key={index} width='100'/>
+            <div className={'img'}>
+                <img alt={image.name} src={URL.createObjectURL(image)} key={index}/>
+            </div>
         )
 
         return (
-            <div>
+            <div className={'content edit'}>
                 {
                     !(sessionStorage.getItem('type') === 'CHARITY') &&
                     <Redirect to='/' />
                 }
-                <h2>Descrição</h2>
+                <h2>Editar a Instituição</h2>
+                <h3>Alterar Descrição</h3>
+                {this.state.descriptionError &&
+                <p className={'error'}>{this.state.descriptionMessage}</p>}
+                {this.state.descriptionSuccess &&
+                <p className={'success'}>{this.state.descriptionMessage}</p>}
                 <form name='description' onSubmit={this.handleSubmit}>
-                    <textarea onChange={this.handleChange} name='description' placeholder='Escreva a descriçao' style={{resize: 'none'}} rows='10' cols='40'></textarea>
+                    <textarea onChange={this.handleChange} name='description' placeholder='Escreva a descriçao' rows='10'></textarea>
                     <input type='submit' value='Alterar descrição'/>
                 </form>
 
-                <h2>Fotos</h2>
+                <hr></hr>
+
+                <h3>Adicionar Fotos</h3>
+                {this.state.photosError &&
+                <p className={'error'}>{this.state.photosMessage}</p>}
+                {this.state.photosSuccess &&
+                <p className={'success'}>{this.state.photosMessage}</p>}
                 <form name='photos' onSubmit={this.handleSubmit}>
-                    <label style={{border: '1px solid'}}>
+                    <label>
                         Selecionar imagens
                         <input style={{display: 'none'}} onChange={this.handleImages} type='file' accept="image/png" multiple/>
                     </label>
-                    <p><b>Selecionadas</b></p>
-                    {preview}
+                    {this.state.images.length !== 0 &&
+                    <p><b>Imagens Selecionadas:</b></p>}
+                    {this.state.images.length !== 0 &&
+                    <div>
+                        {preview}
+                    </div>}
                     <input type='submit' value='Enviar fotos'/>
                 </form>
 
-                <h2>necessidades</h2>
-                <Needs data={[]}/>
+                <hr></hr>
+
+                <h3>Adicionar Necessidades</h3>
+                {this.state.needError &&
+                <p className={'error'}>{this.state.needMessage}</p>}
+                {this.state.needSuccess &&
+                <p className={'success'}>{this.state.needMessage}</p>}
                 <form name='needs' onSubmit={this.handleSubmit}>
                     <input onChange={this.handleChange} name='nameNeed' type='text' placeholder='Item'/>
                     <input onChange={this.handleChange} name='amountNeed' type='number' placeholder='Quantidade' min='1'/>
-                    <textarea onChange={this.handleChange} name='descriptionNeed' placeholder='Descrição do item'></textarea>
+                    <textarea onChange={this.handleChange} name='descriptionNeed' placeholder='Descrição do item' rows='10'></textarea>
                     <input type='submit' value='Adicionar necessidade'/>
                 </form>
                 

@@ -36,6 +36,7 @@ class Login extends Component {
             this.socket.send(JSON.stringify(msg))
         } else {
             this.setState({
+                error: true,
                 errorMessage: 'Insira o nome e a senha'
             })
         }
@@ -48,7 +49,8 @@ class Login extends Component {
 
     handleChange(event) {
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
+            error: false
         })
     }
 
@@ -65,7 +67,6 @@ class Login extends Component {
         })
     }
 
-    //TODO arrumar responses possiveis
     setupSocket() {
         this.socket = Connection
         
@@ -96,14 +97,14 @@ class Login extends Component {
         return (
             sessionStorage.getItem('id') ?
             <Redirect to='/'></Redirect> :
-            <div>
+            <div className={'content login'}>
                 <h2>Logar</h2>
                 {this.state.error &&
-                <p>{this.state.errorMessage}</p>}
+                <p className={'error'}>{this.state.errorMessage}</p>}
                 <form name='login' onSubmit={this.handleSubmit}>
-                    <input onChange={this.handleChange} name='username' type='text' placeholder='username'></input>
-                    <input onChange={this.handleChange} name='password' type='password' placeholder='senha'></input>
-                    <input type='submit' value='login'></input>
+                    <input onChange={this.handleChange} name='username' type='text' placeholder='Username'></input>
+                    <input onChange={this.handleChange} name='password' type='password' placeholder='Senha'></input>
+                    <input type='submit' value='Entrar'></input>
                 </form>
             </div>
         )

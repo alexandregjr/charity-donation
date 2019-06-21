@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Donation from './components/Donation'
+import Item from './components/Item'
 import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
 
@@ -24,7 +24,7 @@ class Donations extends Component {
         const msg = {
             id: sessionStorage.getItem('id'),
             type: ResponseType.DONATIONS_MADE,
-            message: sessionStorage.getItem('type')
+            message: sessionStorage.getItem('type').toLocaleLowerCase()
         }
 
         if (this.socket.readyState === this.socket.OPEN)
@@ -77,8 +77,10 @@ class Donations extends Component {
         const { content } = this.state
 
         const donations = content.map((donation, index) => 
-            <div>
-                <Donation data={donation} key={index} />
+            <div key={index}>
+                <Item data={donation} type='made' />
+                {donation.status === 1 &&
+                <hr></hr>}
                 {donation.status === 1 &&
                 <p>A instituição confirmou o recebimento da doação</p>}
             </div>
@@ -86,11 +88,16 @@ class Donations extends Component {
 
         return (
             this.state.error ?
-            <p>{this.state.errorMessage}</p> :
+            <p className={'error'}>{this.state.errorMessage}</p> :
             this.state.loading ?
-            <p>Loading data...</p> :
-            <div>
-                {donations}
+            <p className={'loading'}>Loading data...</p> :
+            <div className={'content donations'}>
+                <h2>Doações feitas</h2>
+                <div className={'donation'}>
+                    {donations.length !== 0 ?
+                    donations :
+                    <p className={'loading'}>Não existem doações feitas por você.</p>}
+                </div>
             </div>
         )
     }
