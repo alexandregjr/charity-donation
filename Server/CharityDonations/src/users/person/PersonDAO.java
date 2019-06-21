@@ -2,7 +2,16 @@ package users.person;
 
 import java.sql.*;
 
+/**
+ *  Classe responsavel pela conexao com o banco de dados para resgatar e escrever informações
+ *  relacionadas a Person.
+ */
 public final class PersonDAO {
+
+    /**
+     * methodo que inicia uma conexao com o banco de dados.
+     * @return Connection -  resultante da conexão (null se houver falha).
+     */
     private static Connection connectDB(){
         Connection con;
         try {
@@ -16,6 +25,11 @@ public final class PersonDAO {
         return con;
     }
 
+    /**
+     * Metodo que cria uma Person a partir de um ResultSet.
+     * @param rs ResultSet com as infromações da Person buscada.
+     * @return Person - objeto Person criado pela função.
+     */
     public static Person setPersonValuesFromResultSet(ResultSet rs){
         Person ret = new Person();
         try {
@@ -32,6 +46,11 @@ public final class PersonDAO {
         }
     }
 
+    /**
+     * Metodo responsavel pela inserção de um objeto da classe Person no banco de dados.
+     * @param p Person a ser inserida no banco de dados.
+     * @return boolean - indicando se a inserção foi bem sucedida (true) ou nao (false).
+     */
     public static boolean insertPerson(Person p){
         Connection con = PersonDAO.connectDB();
         if(con == null) return false;

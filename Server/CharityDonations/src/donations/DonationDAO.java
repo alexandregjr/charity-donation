@@ -1,8 +1,6 @@
 package donations;
 
 import needs.Item;
-import request.RequestType;
-import users.User;
 import users.charity.Charity;
 import users.charity.CharityDAO;
 import users.person.Person;
@@ -11,7 +9,17 @@ import users.person.PersonDAO;
 import java.sql.*;
 import java.util.ArrayList;
 
+
+/**
+ *  Classe responsavel pela conexao com o banco de dados para resgatar e escrever informações
+ *  relacionadas a Donations.
+ */
 public final class DonationDAO {
+
+    /**
+     * methodo que inicia uma conexao com o banco de dados.
+     * @return Connection -  resultante da conexão (null se houver falha).
+     */
     private static Connection connectDB(){
         Connection con;
         try {
@@ -25,6 +33,14 @@ public final class DonationDAO {
         return con;
     }
 
+    /**
+     * Metodo responsavel pela inserção de um objeto da classe Donation no banco de dados.
+     * @param d Donation a ser inserida no banco de dados.
+     * @param donorType Inteiro que define o tipo da doação<br>
+     *                  (0 = Person to Charity)<br>
+     *                  (1 = Charity to Charity).<br>
+     * @return boolean - indicando se a inserção foi bem sucedida (true) ou nao (false).
+     */
     public static boolean insertDonation(Donation d, int donorType){
         Connection con = connectDB();
         if(con == null) return false;
@@ -99,6 +115,13 @@ public final class DonationDAO {
         return ret;
     }
 
+    /**
+     * Metodo que cria uma lista de Donations a partir de um ResultSet e uma Connection com o
+     * banco de dados.
+     * @param rs ResultSet com as infromações das Donations buscadas.
+     * @param con Connection com o banco de dados.
+     * @return ArrayList(Donation) lista de Donations gerada pela função.
+     */
     private static ArrayList<Donation> getDonationFromResultSet(ResultSet rs, Connection con){
         ArrayList<Donation> ad = new ArrayList<>();
         try {
@@ -142,6 +165,16 @@ public final class DonationDAO {
         return ad;
     }
 
+
+    /**
+     * Metodo que retorna uma lista de Donations feitas pelo id especificado,
+     * carregadas a partir do banco de dados.
+     * @param donorId int identificador do doador.
+     * @param donorType int que define o tipo da doação<br>
+     *      *                  (0 = Person to Charity)<br>
+     *      *                  (1 = Charity to Charity).<br>
+     * @return ArrayList(Donation) lista de Donations carregados do banco de daods.
+     */
     public static ArrayList<Donation> getDonationsMade(int donorId, String donorType){
         Connection con = connectDB();
         if(con == null) return null;
@@ -168,6 +201,12 @@ public final class DonationDAO {
 
     }
 
+    /**
+     * Metodo que retorna uma lista de Donations recebidas pelo id especificado,
+     * carregadas a partir do banco de dados.
+     * @param receiverId int identificador do doador.
+     * @return ArrayList(Donation) lista de Donations carregados do banco de daods.
+     */
     public static ArrayList<Donation> getDonationsReceived(int receiverId){
         Connection con = connectDB();
         if(con == null) return null;
@@ -192,6 +231,11 @@ public final class DonationDAO {
 
     }
 
+    /**
+     * Metodo que valida uma Donation como recebida, alterando seu status no banco de dados.
+     * @param id int identificador da Donation que deseja-se validar.
+     * @return boolean reportando se a operação foi bem sucedida (true) ou nao (false).
+     */
     public static boolean validate(int id){
         Connection con = connectDB();
         boolean ret = false;
