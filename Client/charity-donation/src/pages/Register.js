@@ -4,7 +4,22 @@ import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
 import { Redirect } from 'react-router-dom'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O componente Register representa uma pagina de registro.
+ *
+ * @class Register
+ * @extends {Component}
+ */
 class Register extends Component {
+    /**
+     * Cria uma instancia de Register, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Register
+     */
     constructor(props) {
         super(props)
 
@@ -22,6 +37,14 @@ class Register extends Component {
         this.logged = this.logged.bind(this)
     }
 
+    /**
+     * Verifica se um cpf é valido, olhando para 
+     * os digitos de verificacao.
+     *
+     * @param {*} cpf string contendo o cpf (somente numeros)
+     * @returns true se valido
+     * @memberof Register
+     */
     cpfTest(cpf) {
         let sum = 0;
 
@@ -45,6 +68,14 @@ class Register extends Component {
         return true;
     }
 
+    /**
+     * Verifica se um cnpj é valido, olhando para 
+     * os digitos de verificacao.
+     *
+     * @param {*} cnpj string contendo o cnpj (somente numeros)
+     * @returns true se valido
+     * @memberof Register
+     */
     cnpjTest(cnpj){
         if(cnpj.length !== 14) return false
         let weight = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
@@ -72,6 +103,13 @@ class Register extends Component {
         return true
     }
 
+    /**
+     * Envia um request de registro de instituicao para o servidor,
+     * ou muda o estado para mostrar um erro, caso o CNPJ seja 
+     * invalido
+     *
+     * @memberof Register
+     */
     registerCharity() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.registerCharity, 10)
@@ -101,6 +139,13 @@ class Register extends Component {
         this.socket.send(JSON.stringify(msg))
     }
 
+    /**
+     * Envia um request de registro de pessoa para o servidor,
+     * ou muda o estado para mostrar um erro, caso o CPF seja 
+     * invalido
+     *
+     * @memberof Register
+     */
     registerPerson() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.registerPerson, 10)
@@ -128,6 +173,14 @@ class Register extends Component {
         this.socket.send(JSON.stringify(msg))
     }
 
+    /**
+     * Utilizado para gerenciar as submissoes dos 
+     * formularios da pagina, realizando a chamada
+     * para cadastro de pessoa ou instituicao.
+     *
+     * @param {*} event evento de submissao no form
+     * @memberof Register
+     */
     handleSubmit(event) {
         event.preventDefault()
 
@@ -142,20 +195,43 @@ class Register extends Component {
         }
     }
 
+    /**
+     * Muda o estado que indica o tipo de registro, 
+     * alterando os campos que sao mostrados para a
+     * realizacao do registro.
+     *
+     * @param {*} event evento de clique em um item
+     * @memberof Register
+     */
     handleClick(event) {
         this.setState({
             type: event.target.name.toUpperCase(),
-            error: ''
+            error: false
         })
     }
 
+    /**
+     * Utilizado para gerenciar as alteracoes nos 
+     * formularios da pagina, guardando os valores no
+     * estado
+     *
+     * @param {*} event evento de mudanca no form
+     * @memberof Register
+     */
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
-            error: ''
+            error: false
         })
     }
 
+    /**
+     * Envia um request de login para o servidor, ou muda o 
+     * estado para mostrar um erro, caso user ou senha sejam 
+     * invalidos
+     *
+     * @memberof Register
+     */
     login() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.login, 10)
@@ -181,12 +257,27 @@ class Register extends Component {
         }
     }
 
+    /**
+     * Armazena os dados do usuario no armazenamento
+     * local.
+     *
+     * @param {*} id id do usuario logado
+     * @param {*} type tipo do usuario logado (charity ou person)
+     * @memberof Register
+     */
     logged(id, type) {
         sessionStorage.setItem('id', id)
         sessionStorage.setItem('type', type.toUpperCase())   
         window.location.reload()     
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro
+     * que ocorra.
+     *
+     * @param {*} error mensagem de error
+     * @memberof Register
+     */
     setError(error) {
         this.setState({
             errorMessage: error, 
@@ -194,6 +285,12 @@ class Register extends Component {
         })
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Register
+     */
     setupSocket() {
         this.socket = Connection
         
@@ -237,10 +334,25 @@ class Register extends Component {
         }        
     }
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Register
+     */
     componentDidMount() {
         this.setupSocket()
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Uma tela com campos cadastro, e escolha de cadastro de instituicao
+     * ou pessoa.
+     *
+     * @returns JSX Component
+     * @memberof Register
+     */
     render() {
         return (
             sessionStorage.getItem('id') ?

@@ -1,3 +1,6 @@
+/**
+ * Retorna a instancia conectada no momento
+ */
 const Connection = (() => {
     let instance
 

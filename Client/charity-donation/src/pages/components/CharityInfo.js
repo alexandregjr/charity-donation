@@ -2,6 +2,16 @@ import React from 'react'
 import Needs from './Needs';
 import {Link} from 'react-router-dom'
 
+/**
+ * Componente funcional do React, que retorna um 
+ * o component charity info (JSX Component) com os valores
+ * passados por propriedades.
+ * O CharityInfo é um componente que descreve uma instituicao
+ * de caridade
+ *
+ * @param {*} props propriedades para criação do componente
+ * @returns {JSX Component} Componente para ser renderizado
+ */
 function CharityInfo(props) {
 
     return (

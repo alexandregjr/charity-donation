@@ -2,7 +2,23 @@ import React, {Component} from 'react'
 import Connection from '../connection/Connection'
 import ResponseType from '../connection/ResponseType'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O componente Charity representa uma pagina de uma
+ * Instituição de Caridade.
+ *
+ * @class Charity
+ * @extends {Component}
+ */
 class Charity extends Component {
+    /**
+     * Cria uma instancia de Charity, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Charity
+     */
     constructor(props) {
         super(props)
 
@@ -22,9 +38,15 @@ class Charity extends Component {
         this.donationSuccessful = this.donationSuccessful.bind(this)
     }
 
+    /**
+     * Faz uma request para o servidor enviar os dados da Instituicao
+     * cuja página está sendo acessada.
+     *
+     * @memberof Charity
+     */
     query() {
         const msg = {
-            id: this.props.match.params.id,
+            id: this.props.match.params.id, // onde fica o id que está na window.location
             type: ResponseType.CHARITY
         }
 
@@ -33,6 +55,13 @@ class Charity extends Component {
         else setTimeout(this.query, 10)
     }
 
+    /**
+     * Muda o estado da pagina, guardando 
+     * o conteudo pesquisado no servidor
+     *
+     * @param {Object} content objeto contendo os dados
+     * @memberof Charity
+     */
     setContent(content) {
         this.setState({
             error: false,
@@ -47,6 +76,13 @@ class Charity extends Component {
         }
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro ocorrido
+     * no carregamento da pagina
+     *
+     * @param {String} error mensagem de erro
+     * @memberof Charity
+     */
     setError(error) {
         this.setState({
             errorMessage: error,
@@ -54,6 +90,13 @@ class Charity extends Component {
         })
     }
 
+    /**
+     * Muda o estado para mostrar o cadastro da doacao 
+     * realizado com sucesso
+     *
+     * @param {String} message mensagem retornada pelo servidor
+     * @memberof Charity
+     */
     donationSuccessful(message) {
         this.setState({
             donated: true,
@@ -63,6 +106,13 @@ class Charity extends Component {
         this.query()
     }
 
+    /**
+     * Muda o estado para mostrar o erro gerado ao tentar
+     * realizar uma doacao
+     *
+     * @param {String} message mensagem retornada pelo servidor
+     * @memberof Charity
+     */
     donationFailed(message) {
         this.setState({
             errorDonation: true,
@@ -70,12 +120,25 @@ class Charity extends Component {
         })
     }
 
+    /**
+     * Insere uma imagem recebida do servidor no estado
+     * da pagino
+     *
+     * @param {Blob} image imagem recebida do servidor (Blob)
+     * @memberof Charity
+     */
     insertImage(image) {
         this.setState((curr) => ({
             photos: curr.photos.concat([image])
         }))
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Charity
+     */
     setupSocket() {
         this.socket = Connection
 
@@ -120,11 +183,25 @@ class Charity extends Component {
         }        
     }
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Charity
+     */
     componentDidMount() {
         this.setupSocket()
         this.query()
     }
-
+    
+    /**
+     * Utilizado para gerenciar as alteracoes nos 
+     * formularios da pagina, guardando os valores no
+     * estado
+     *
+     * @param {*} event evento de mudanca no form
+     * @memberof Charity
+     */
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -133,6 +210,13 @@ class Charity extends Component {
         })
     }
 
+    /**
+     * Utilizado para gerenciar as submissoes dos 
+     * formularios da pagina, tentando realizar a doacao
+     *
+     * @param {*} event evento de submissao no form
+     * @memberof Charity
+     */
     handleSubmit(event) {
         event.preventDefault()
         if (!this.state.donation) {
@@ -150,14 +234,20 @@ class Charity extends Component {
             return
         }
         this.donate()
+        
+        event.target.reset()
     }
 
+    /**
+     * Realiza a comunicacao com o Servidor, tentando 
+     * registrar uma nova doacao, do usuario logado, para 
+     * a instituicao
+     *
+     * @memberof Charity
+     */
     donate() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.donate, 10)
-
-        console.log('donation: ' + !this.state.donation)
-        
 
         const donation = {
             donor: {
@@ -181,6 +271,15 @@ class Charity extends Component {
         this.socket.send(JSON.stringify(msg))
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Possui os dados de uma Instituição, inclusive as imagens selecionadas
+     * e um formulario para submeter uma doacao.
+     *
+     * @returns JSX Component
+     * @memberof Charity
+     */
     render() {
         const { content, photos } = this.state
         

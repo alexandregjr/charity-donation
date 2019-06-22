@@ -3,7 +3,23 @@ import CharityInfo from './components/CharityInfo'
 import Connection from '../connection/Connection'
 import ResponseType from '../connection/ResponseType'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O component Main possui as Instituicoes listadas, 
+ * permitindo realizar buscas por Nome ou Area de atuacao.
+ *
+ * @class Main
+ * @extends {Component}
+ */
 class Main extends Component {
+    /**
+     * Cria uma instancia de Main, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Main
+     */
     constructor(props) {
         super(props)
 
@@ -20,6 +36,12 @@ class Main extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    /**
+     * Faz uma request para o servidor enviar os dados das
+     * Instituicoes registradas (todas)
+     *
+     * @memberof Main
+     */
     query() {
         const filter = {
             key: "",
@@ -36,6 +58,13 @@ class Main extends Component {
         else setTimeout(this.query, 10)
     }
 
+    /**
+     * Faz uma request para o servidor enviar os dados das
+     * Instituicoes registradas, utilizando o filtro selecionado
+     * para realizar as buscas.
+     *
+     * @memberof Main
+     */
     search() {
         if (!this.state.keySearch) {
             this.query()
@@ -61,7 +90,13 @@ class Main extends Component {
         else setTimeout(this.query, 10)
     }
 
-
+    /**
+     * Muda o estado da pagina, guardando 
+     * o conteudo pesquisado no servidor
+     *
+     * @param {Object} content objeto contendo os dados
+     * @memberof Main
+     */
     setContent(content) {
         this.setState({
             error: false,
@@ -70,6 +105,13 @@ class Main extends Component {
         })
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro ocorrido
+     * no carregamento da pagina
+     *
+     * @param {String} error mensagem de erro
+     * @memberof Main
+     */
     setError(error) {
         this.setState({
             error: true,
@@ -77,6 +119,12 @@ class Main extends Component {
         })
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Main
+     */
     setupSocket() {
         this.socket = Connection
 
@@ -97,6 +145,14 @@ class Main extends Component {
         }        
     }
 
+    /**
+     * Utilizado para gerenciar as submissoes dos 
+     * formularios da pagina, realizando a chamada 
+     * da busca.
+     *
+     * @param {*} event evento de submissao no form
+     * @memberof Main
+     */
     handleSubmit(event) {
         event.preventDefault()
         this.setState({
@@ -105,17 +161,40 @@ class Main extends Component {
         this.search()
     }
 
+    /**
+     * Utilizado para gerenciar as alteracoes nos 
+     * formularios da pagina, guardando os valores no
+     * estado
+     *
+     * @param {*} event evento de mudanca no form
+     * @memberof Main
+     */
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
         })
     }  
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Main
+     */
     componentDidMount() {
         this.setupSocket()
         this.query()
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Possui campos para a realizacao da busca por nome ou area de atuacao,
+     * alem de uma listagem de todas as Instituicoes.
+     *
+     * @returns JSX Component
+     * @memberof Main
+     */
     render() {
         const infos = this.state.content.map(
             (charity, index) => <CharityInfo key={index} data={charity} />

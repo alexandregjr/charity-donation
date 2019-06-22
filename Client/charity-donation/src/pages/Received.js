@@ -4,7 +4,24 @@ import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
 import { Redirect } from 'react-router-dom'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O componente Received representa uma pagina que possui
+ * uma lista com as doacoes recebidas por um usuario
+ *
+ * @class Received
+ * @extends {Component}
+ */
 class Received extends Component {
+
+    /**
+     * Cria uma instancia de Received, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Received
+     */
     constructor(props) {
         super(props)
 
@@ -21,6 +38,12 @@ class Received extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
+    /**
+     * Faz uma request para o servidor enviar todas as 
+     * doacoes feitas para o usuario que esta logado
+     *
+     * @memberof Received
+     */
     query() {
         const msg = {
             id: sessionStorage.getItem('id'),
@@ -32,6 +55,13 @@ class Received extends Component {
         else setTimeout(this.query, 10)
     }
 
+    /**
+     * Muda o estado da pagina, guardando 
+     * o conteudo pesquisado no servidor
+     *
+     * @param {Object} content
+     * @memberof Received
+     */
     setContent(content) {
         this.setState({
             error: false,
@@ -41,6 +71,12 @@ class Received extends Component {
         })
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Received
+     */
     setupSocket() {
         this.socket = Connection
 
@@ -78,6 +114,13 @@ class Received extends Component {
         }        
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro ocorrido
+     * no carregamento da pagina
+     *
+     * @param {String} error mensagem de erro
+     * @memberof Received
+     */
     setError(error) {
         this.setState({
             error: true,
@@ -85,6 +128,13 @@ class Received extends Component {
         })
     }
 
+    /**
+     * Muda o estado para mostrar um erro quando falha
+     * ao tentar confirmar o recebimento de algum produto
+     *
+     * @param {*} error mensagem de erro
+     * @memberof Received
+     */
     confirmFailed(error) {
         this.setState({
             errorConfirm: true,
@@ -92,6 +142,12 @@ class Received extends Component {
         })
     }
 
+    /**
+     * Muda o estado e atualiza a pagina para mostrar 
+     * a confirmacao de uma doacao
+     * 
+     * @memberof Received
+     */
     confirmSuccessful() {
         this.setState({
             loading: true
@@ -100,11 +156,24 @@ class Received extends Component {
         this.query()
     }
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Received
+     */
     componentDidMount() {
         this.setupSocket()
         this.query()
     }
 
+    /**
+     * Envia uma request para o servidor confirmar o recebimento 
+     * da doacao selecionada
+     *
+     * @param {*} id id da doacao a ser confirmada
+     * @memberof Received
+     */
     validateDonation(id) {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.validateDonation, 10)
@@ -117,11 +186,28 @@ class Received extends Component {
         this.socket.send(JSON.stringify(msg))
     }
 
+    /**
+     * Utilizado para gerenciar as submissoes dos 
+     * formularios da pagina, realizando a confirmacao
+     * da doacao
+     *
+     * @param {*} event evento de submissao no form
+     * @memberof Received
+     */
     handleSubmit(event) {
         event.preventDefault()
         this.validateDonation(event.target.name)
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Lista todas as doacoes realizadas recebidas usuario, tendo a opçao
+     * de confirmar recebimento.
+     *
+     * @returns JSX Component
+     * @memberof Received
+     */
     render() {
         const { content } = this.state
 

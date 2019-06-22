@@ -4,7 +4,22 @@ import Connection from '../connection/Connection'
 import CryptoJS from 'crypto-js'
 import {Redirect} from 'react-router-dom'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O componente Login representa uma pagina de login.
+ *
+ * @class Login
+ * @extends {Component}
+ */
 class Login extends Component {
+    /**
+     * Cria uma instancia de Login, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Login
+     */
     constructor(props) {
         super(props)
 
@@ -16,6 +31,13 @@ class Login extends Component {
         this.handleChange = this.handleChange.bind(this)
     }
 
+    /**
+     * Envia um request de login para o servidor, ou muda o 
+     * estado para mostrar um erro, caso user ou senha sejam 
+     * invalidos
+     *
+     * @memberof Login
+     */
     login() {
         if (this.socket.readyState !== this.socket.OPEN) 
             setTimeout(this.login, 10)
@@ -40,13 +62,31 @@ class Login extends Component {
                 errorMessage: 'Insira o nome e a senha'
             })
         }
+
+        event.target.reset()
     }
-    
+
+    /**
+     * Utilizado para gerenciar as submissoes dos 
+     * formularios da pagina, realizando a chamada 
+     * de login
+     *
+     * @param {*} event evento de submissao no form
+     * @memberof Login
+     */
     handleSubmit(event) {
         event.preventDefault()
         this.login()
     } 
 
+    /**
+     * Utilizado para gerenciar as alteracoes nos 
+     * formularios da pagina, guardando os valores no
+     * estado
+     *
+     * @param {*} event evento de mudanca no form
+     * @memberof Login
+     */
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -54,12 +94,27 @@ class Login extends Component {
         })
     }
 
+    /**
+     * Armazena os dados do usuario no armazenamento
+     * local.
+     *
+     * @param {*} id id do usuario logado
+     * @param {*} type tipo do usuario logado (charity ou person)
+     * @memberof Login
+     */
     logged(id, type) {
         sessionStorage.setItem('id', id)
         sessionStorage.setItem('type', type.toUpperCase())   
         window.location.reload()     
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro
+     * que ocorra ao realizar login.
+     *
+     * @param {*} error mensagem de error
+     * @memberof Login
+     */
     loginError(error) {
         this.setState({
             errorMessage: error, 
@@ -67,6 +122,12 @@ class Login extends Component {
         })
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Login
+     */
     setupSocket() {
         this.socket = Connection
         
@@ -89,10 +150,25 @@ class Login extends Component {
         }        
     }
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Login
+     */
     componentDidMount() {
         this.setupSocket()
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Uma tela com campos de login e senha para realizar o login do 
+     * usuario.
+     *
+     * @returns JSX Component
+     * @memberof Login
+     */
     render() {
         return (
             sessionStorage.getItem('id') ?

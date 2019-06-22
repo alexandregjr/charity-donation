@@ -3,7 +3,24 @@ import Item from './components/Item'
 import ResponseType from '../connection/ResponseType'
 import Connection from '../connection/Connection'
 
+/**
+ * Componente do React criado utilizando classes para
+ * que possa ter acesso a estados. Possui metodos para 
+ * renderizar e buscar dados no servidor.
+ * O componente Donations representa uma pagina que 
+ * possui as doacoes realizadas pelo user logado.
+ *
+ * @class Donations
+ * @extends {Component}
+ */
 class Donations extends Component {
+
+    /**
+     * Cria uma instancia de Donations, que é um JSX Component
+     * 
+     * @param {*} props propriedades passadas para o objeto
+     * @memberof Donations
+     */
     constructor(props) {
         super(props)
 
@@ -19,7 +36,13 @@ class Donations extends Component {
         this.setError = this.setError.bind(this)
         this.query = this.query.bind(this)
     }
-
+    
+    /**
+     * Faz uma request para o servidor enviar todas as 
+     * doacoes feitas para o usuario que esta logado
+     *
+     * @memberof Donations
+     */
     query() {
         const msg = {
             id: sessionStorage.getItem('id'),
@@ -32,6 +55,13 @@ class Donations extends Component {
         else setTimeout(this.query, 10)
     }
 
+    /**
+     * Muda o estado da pagina, guardando 
+     * o conteudo pesquisado no servidor
+     *
+     * @param {Object} content
+     * @memberof Donations
+     */
     setContent(content) {
         this.setState({
             error: false,
@@ -40,6 +70,13 @@ class Donations extends Component {
         })
     }
 
+    /**
+     * Muda o estado da pagina para mostrar um erro ocorrido
+     * no carregamento da pagina
+     *
+     * @param {String} error mensagem de erro
+     * @memberof Donations
+     */
     setError(error) {
         this.setState({
             errorMessage: error,
@@ -47,6 +84,12 @@ class Donations extends Component {
         })
     }
 
+    /**
+     * Realiza a configuracao do WebSocket (conexao Client-Server)
+     * para realizar a comunicacao e receber os dados 
+     *
+     * @memberof Donations
+     */
     setupSocket() {
         this.socket = Connection
 
@@ -68,11 +111,25 @@ class Donations extends Component {
         }        
     }
 
+    /**
+     * Metodo built-in da classe Component que é
+     * chamado sempre que o componente é montado
+     *
+     * @memberof Donations
+     */
     componentDidMount() {
         this.setupSocket()
         this.query()
     }
 
+    /**
+     * Metodo built-in do component react que retorna o componente JSX
+     * a ser renderizado na tela.
+     * Lista todas as doacoes realizadas pelo usuario.
+     *
+     * @returns JSX Component
+     * @memberof Charity
+     */
     render() {
         const { content } = this.state
 
