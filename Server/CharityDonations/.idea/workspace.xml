@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6c863fde-d653-4df0-a970-7c7d56b78b74" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/RequestServer$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/RequestServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/donations/Donation.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/needs/Item.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/needs/Needs.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/request/Request.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/request/RequestType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/users/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/users/charity/Charity.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/users/charity/CharityDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/users/person/Person.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/users/person/PersonDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/database/CharityDatabase.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CharityDonations.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CharityDonations.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/donations/DonationDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CharityDonations/donations/DonationDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/filter/Filter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CharityDonations/filter/Filter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CharityDonations/login/LoginDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CharityDonations/login/LoginDAO.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,7 +26,7 @@
         <entry file="file://$PROJECT_DIR$/src/RequestServer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="10026">
-              <caret line="583" selection-start-line="583" selection-end-line="583" />
+              <caret line="697" selection-start-line="697" selection-end-line="697" />
             </state>
           </provider>
         </entry>
@@ -43,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/donations/Donation.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="68" selection-start-line="68" selection-end-line="68" />
+            <state relative-caret-position="756">
+              <caret line="124" selection-start-line="124" selection-end-line="124" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -55,8 +46,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/users/charity/CharityDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="386" selection-start-line="386" selection-end-line="386" />
+            <state relative-caret-position="6732">
+              <caret line="469" selection-start-line="469" selection-end-line="469" />
             </state>
           </provider>
         </entry>
@@ -64,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/donations/DonationDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="954">
-              <caret line="62" column="1" selection-start-line="62" selection-start-column="1" selection-end-line="62" selection-end-column="1" />
+            <state relative-caret-position="1242">
+              <caret line="78" column="1" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="1" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -76,8 +67,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/users/person/PersonDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+            <state relative-caret-position="36">
+              <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -166,6 +157,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -235,7 +227,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -245,7 +236,7 @@
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="/usr/share/java/mysql-connector-java-8.0.16.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mysql-connector-java-8.0.16.jar!/" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -316,7 +307,7 @@
   <component name="ToolWindowManager">
     <frame x="70" y="27" width="1296" height="741" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4992126" visible="true" weight="0.3488" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4992126" visible="true" weight="0.3552" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -327,7 +318,7 @@
       <window_info id="DB Browser" order="8" weight="0.3296875" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32804233" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7708333" visible="true" weight="0.338843" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7708333" weight="0.338843" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -335,7 +326,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Terminal" order="8" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.22916667" side_tool="true" weight="0.33968255" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.32910052" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3289256" />
       <window_info anchor="bottom" id="DB Execution Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -505,17 +496,18 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/CharityDatabase.java" />
     <entry file="file://$PROJECT_DIR$/src/RequestServer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10026">
-          <caret line="583" selection-start-line="583" selection-end-line="583" />
+          <caret line="697" selection-start-line="697" selection-end-line="697" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/donations/Donation.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="68" selection-start-line="68" selection-end-line="68" />
+        <state relative-caret-position="756">
+          <caret line="124" selection-start-line="124" selection-end-line="124" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -524,25 +516,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/users/charity/CharityDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="386" selection-start-line="386" selection-end-line="386" />
+        <state relative-caret-position="6732">
+          <caret line="469" selection-start-line="469" selection-end-line="469" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/donations/DonationDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="954">
-          <caret line="62" column="1" selection-start-line="62" selection-start-column="1" selection-end-line="62" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/CharityDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="810">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="1242">
+          <caret line="78" column="1" selection-start-line="78" selection-start-column="1" selection-end-line="78" selection-end-column="1" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -551,8 +533,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/users/person/PersonDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+        <state relative-caret-position="36">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
         </state>
       </provider>
     </entry>

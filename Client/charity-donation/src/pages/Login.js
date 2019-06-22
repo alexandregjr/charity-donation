@@ -62,8 +62,6 @@ class Login extends Component {
                 errorMessage: 'Insira o nome e a senha'
             })
         }
-
-        event.target.reset()
     }
 
     /**
